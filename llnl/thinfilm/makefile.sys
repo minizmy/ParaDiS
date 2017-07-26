@@ -1,0 +1,1345 @@
+########################################################################
+#
+#    This file contains 'make' macros and definitions for a
+#    pre-defined set of system types that may be selected
+#    by the "SYS=..." value in the file 'makefile.setup'.
+#
+#    The pre-defined system 'types' included in this file are:
+#
+#    System type       Description
+#    -----------       -----------
+#
+#      linux           LC Intel(itanium/xeon) linux systems
+#                      using native Intel compilers.
+#                      (THUNDER, MCR, ALC, ILX, ACE, QUEEN, LILAC...)
+#
+#      linux.opteron   LC Intel(64-bit opteron) linux systems
+#                      using native Intel compilers.
+#                      (YANA, ZEUS, RHEA, ATLAS, PRISM...)
+#
+#      linux.pc        Generic linux PC
+#
+#      aix             LC IBM aix systems using native compilers
+#                      (ICE, BERG, PURPLE, UM, UP, UV...)
+#
+#      bgl             LC BlueGene/Light system using xl* compilers
+#                      (BGL)
+#
+#      bgl.gcc         LC BlueGene/Light system using gcc compiler
+#                      (BGL)
+#
+#      ubgl            LC BlueGene/Light system
+#                      (UBGL)
+#
+#      bgp             LC BlueGene/P systems
+#                      (DAWN, DAWNDEV)
+#
+#      dec             LC DEC systems using native compilers and MPI
+#
+#      dec.mpich       LC DEC systems using mpich
+#
+#      titans          LLNL parallel linux cluster
+#
+#      mcr             LC parallel linux cluster using intel copilers
+#                      with floating-point exceptions enabled
+#                      (MCR, PENGRA)
+#
+#      mc-cc           Stanford ME Linux system using intel compilers
+#
+#      wcr             Stanford ME Linux system using intel compilers
+#
+#      COMET           NSF-funded system operated by the San Diego 
+#                      Supercomputer Center at UC San Diego
+#
+#      STAMPEDE2       TACC
+#
+#      cygwin          Stanford Linux emulator for Windows PC
+#
+#      franklin        NERSC Cray XT4 system
+#
+#      mac             MacBook Pro 
+#
+#      gcc             Linux systems using gnu compilers
+
+########################################################
+#
+#    System type: linux 
+#    
+#    LC Intel(itanium/xeon) linux systems using native
+#    Intel compilers.
+#
+#    Systems: thunder, mcr, alc, ilx, ace, queen,
+#             lilac, etc...
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.linux       = mpiicc
+CPP_PARALLEL.linux      = mpiicpc
+CCFLAG_PARALLEL.linux   = -DPARALLEL=1
+CPPFLAG_PARALLEL.linux  = 
+
+CC_SERIAL.linux         = icc
+CPP_SERIAL.linux        = icpc
+CCFLAG_SERIAL.linux     = 
+CPPFLAG_SERIAL.linux    = 
+
+F90.linux               = ifort
+F90_OPTS.linux          = 
+F90_LIB.linux           = -lifcore
+
+CC.linux                = $(CC_$(MODE).linux)
+CPP.linux               = $(CPP_$(MODE).linux)
+CCFLAG.linux            = $(CCFLAG_$(MODE).linux)
+CPPFLAG.linux           = $(CPPFLAG_$(MODE).linux)
+
+XLIB_LIBDIR.linux       = /usr/X11R6/lib
+XLIB_LIB.linux          = -L$(XLIB_LIBDIR.linux) -lX11 -lpthread
+XLIB_INCS.linux         =
+
+MPI_LIBDIR.linux        = 
+MPI_LIB.linux           = 
+MPI_INCS.linux          = 
+
+HDF_LIBDIR.linux        = -Xlinker -rpath -Xlinker \
+			  /usr/local/tools/hdf5-intel-serial/lib \
+			  -L/usr/local/tools/hdf5-intel-serial/lib
+HDF_LIB.linux           = $(HDF_LIBDIR.linux) -lhdf5 -lhdf5_hl
+HDF_INCS.linux          = -I/usr/local/tools/hdf5-intel-serial/include
+
+OPENMP_FLAG.linux       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.linux      = -lm
+INCS_PARALLEL.linux     =
+
+LIB_SERIAL.linux        = -lm
+INCS_SERIAL.linux       =
+
+
+########################################################
+#
+#    System type: linux.opteron 
+#
+#    LC Intel(opteron) linux systems using native
+#    Intel compilers.
+#
+#    Systems: yana, zeus, rhea, atlas, prism, etc...
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+#    Periodically compile with the following options just to 
+#    see what needs to be cleaned up in the code:
+#        -Wmissing-prototypes
+#        -Wunused-variable
+#        -Wunused-function
+#        -Wuninitialized
+#
+CC_PARALLEL.linux.opteron       = mpiicc
+CPP_PARALLEL.linux.opteron      = mpiicpc
+CCFLAG_PARALLEL.linux.opteron   = -DPARALLEL=1 -Wno-unknown-pragmas
+CPPFLAG_PARALLEL.linux.opteron  = 
+
+CC_SERIAL.linux.opteron         = icc -Wno-unknown-pragmas
+CPP_SERIAL.linux.opteron        = icpc
+CCFLAG_SERIAL.linux.opteron     = 
+CPPFLAG_SERIAL.linux.opteron    = 
+ 
+F90.linux.opteron               = ifort
+F90_OPTS.linux.opteron          = 
+F90_LIB.linux.opteron           = -lifcore
+
+CC.linux.opteron                = $(CC_$(MODE).linux.opteron)
+CPP.linux.opteron               = $(CPP_$(MODE).linux.opteron)
+CCFLAG.linux.opteron            = $(CCFLAG_$(MODE).linux.opteron)
+CPPFLAG.linux.opteron           = $(CPPFLAG_$(MODE).linux.opteron)
+
+XLIB_LIBDIR.linux.opteron       = /usr/X11R6/lib64
+XLIB_LIB.linux.opteron          = -L$(XLIB_LIBDIR.linux.opteron) -lX11 -lpthread
+XLIB_INCS.linux.opteron         =
+
+MPI_LIBDIR.linux.opteron        = 
+MPI_LIB.linux.opteron           = -lmpich
+MPI_INCS.linux.opteron          = 
+
+HDF_LIBDIR.linux.opteron        = -Xlinker -rpath -Xlinker \
+				  /usr/local/tools/hdf5-intel-serial/lib \
+				  -L/usr/local/tools/hdf5-intel-serial/lib
+HDF_LIB.linux.opteron           = $(HDF_LIBDIR.linux.opteron) -lhdf5 -lhdf5_hl
+HDF_INCS.linux.opteron          = -I/usr/local/tools/hdf5-intel-serial/include
+
+OPENMP_FLAG.linux.opteron       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.linux.opteron      = -lm
+INCS_PARALLEL.linux.opteron     =
+
+LIB_SERIAL.linux.opteron        = -lm
+INCS_SERIAL.linux.opteron       =
+
+
+########################################################
+#
+#    System type: linux.pc
+#
+#    Generic linux PC
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.linux.pc       = mpicc
+CPP_PARALLEL.linux.pc      = mpiCC
+CCFLAG_PARALLEL.linux.pc   = -DPARALLEL=1
+CPPFLAG_PARALLEL.linux.pc  =
+
+CC_SERIAL.linux.pc         = cc
+CPP_SERIAL.linux.pc        = c++
+CCFLAG_SERIAL.linux.pc     = 
+CPPFLAG_SERIAL.linux.pc    =
+
+F90.linux.pc               = ifort
+F90_OPTS.linux.pc          = 
+F90_LIB.linux.pc           = -lifcore
+
+CC.linux.pc                = $(CC_$(MODE).linux.pc)
+CPP.linux.pc               = $(CPP_$(MODE).linux.pc)
+CCFLAG.linux.pc            = $(CCFLAG_$(MODE).linux.pc)
+CPPFLAG.linux.pc           = $(CPPFLAG_$(MODE).linux.pc)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.linux.pc     = /usr/X11R6/lib
+XLIB_LIB.linux.pc        = -L$(XLIB_LIBDIR.linux.pc) -lX11 -lpthread
+XLIB_INCS.linux.pc       =
+
+MPI_LIBDIR.linux.pc      = 
+MPI_LIB.linux.pc         =
+MPI_INCS.linux.pc        =
+
+HDF_LIBDIR.linux.pc     = -Xlinker -rpath -Xlinker \
+			  /usr/local/tools/hdf5-intel-serial/lib \
+			  -L/usr/local/tools/hdf5-intel-serial/lib
+HDF_LIB.linux.pc        = $(HDF_LIBDIR.linux.pc) -lhdf5 -lhdf5_hl
+HDF_INCS.linux.pc       = -I/usr/local/tools/hdf5-intel-serial/include
+
+OPENMP_FLAG.linux.pc    = -fopenmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.linux.pc    = -lm
+INCS_PARALLEL.linux.pc   = 
+
+LIB_SERIAL.linux.pc      = -lm
+INCS_SERIAL.linux.pc     =
+
+
+########################################################
+#
+#    System type: aix
+#
+#    LC IBM aix systems using native compilers
+#
+#    Systems: ice, berg, purple, um, up, uv, etc...
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+#    NOTE: enabling -qflttrap is expensive, so unless there are problems
+#          that require debugging, leave it turned off.
+#
+CC_PARALLEL.aix       = mpcc_r
+CPP_PARALLEL.aix      = mpCC_r
+CCFLAG_PARALLEL.aix   = -DPARALLEL=1 -qstrict 
+#                        -qflttrap=enable:imprecise:overflow:underflow:zerodivide:invalid
+CPPFLAG_PARALLEL.aix  = 
+
+CC_SERIAL.aix         = xlc_r
+CPP_SERIAL.aix        = xlC_r
+CCFLAG_SERIAL.aix     = -qstrict
+#			-qflttrap=enable:imprecise:overflow:underflow:zerodivide:invalid 
+CPPFLAG_SERIAL.aix    = 
+
+F90.aix               = f90
+F90_OPTS.aix          = -qmbcs -qextname -qstrict
+#                        -qflttrap=enable:imprecise:overflow:underflow:zerodivide:invalid
+F90_LIB.aix           = -lf
+
+CC.aix                = $(CC_$(MODE).aix)
+CPP.aix               = $(CPP_$(MODE).aix)
+CCFLAG.aix            = $(CCFLAG_$(MODE).aix)
+CPPFLAG.aix           = $(CPPFLAG_$(MODE).aix)
+
+XLIB_LIBDIR.aix       = /usr/local/X11R6.3
+XLIB_LIB.aix          = -L$(XLIB_LIBDIR.aix) -lX11 -lpthread
+XLIB_INCS.aix         =
+
+MPI_LIBDIR.aix        = 
+MPI_LIB.aix           = 
+MPI_INCS.aix          =
+
+HDF_LIBDIR.aix        = -L/usr/local/tools/hdf5/hdf5-1.6.5/serial/lib
+HDF_LIB.aix           = $(HDF_LIBDIR.aix) -lhdf5 -lhdf5_hl
+HDF_INCS.aix          = -I/usr/local/tools/hdf5/hdf5-1.6.5/serial/include
+
+OPENMP_FLAG.aix       = -qsmp=omp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.aix      = -lmass
+INCS_PARALLEL.aix     = 
+
+LIB_SERIAL.aix        = -lmass
+INCS_SERIAL.aix       =
+
+
+########################################################
+#
+#    System type: bgl
+#
+#    LC BlueGene/Light system
+#
+#    Systems:  bgl
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+
+CC_PARALLEL.bgl       = /usr/local/bin/mpxlc
+CPP_PARALLEL.bgl      = /usr/local/bin/mpxlC
+CCFLAG_PARALLEL.bgl   = -D_BGL -DPARALLEL=1 -qarch=440 \
+                        -qstrict -qcpluscmt
+CPPFLAG_PARALLEL.bgl  = -D_BGL
+
+CC_SERIAL.bgl         = gcc
+CPP_SERIAL.bgl        = g++
+CCFLAG_SERIAL.bgl     = -D_BGL 
+CPPFLAG_SERIAL.bgl    = -D_BGL
+
+F90.bgl               = /usr/local/bin/mpxlf90
+F90_OPTS.bgl          = -qextname -qstrict -qfree=f90 -qarch=440
+F90_LIB.bgl           = -L/opt/ibmcmp/xlsmp/bg/1.6/blrts_lib \
+			-L/opt/ibmcmp/xlmass/bg/4.3/blrts_lib \
+			-L/opt/ibmcmp/xlf/bg/10.1/blrts_lib \
+			-lxlf90 -lxlopt -lxlomp_ser -lxl -lxlfmath
+
+CC.bgl                = $(CC_$(MODE).bgl)
+CPP.bgl               = $(CPP_$(MODE).bgl)
+CCFLAG.bgl            = $(CCFLAG_$(MODE).bgl)
+CPPFLAG.bgl           = $(CPPFLAG_$(MODE).bgl)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.bgl       =
+XLIB_LIB.bgl          =
+XLIB_INCS.bgl         =
+
+MPI_LIBDIR.bgl        =
+MPI_LIB.bgl           =
+MPI_INCS.bgl          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.bgl      =
+INCS_PARALLEL.bgl     =
+
+LIB_SERIAL.bgl        = -lm
+INCS_SERIAL.bgl       =
+
+########################################################
+#
+#    System type: MAC
+#
+#    MacBook Pro system using gcc compiler
+#
+#    Systems:  mac
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.mac       =
+CPP_PARALLEL.mac      =
+
+CCFLAG_PARALLEL.mac   = -DPARALLEL=1
+CPPFLAG_PARALLEL.mac  = -D_MAC
+
+CC_SERIAL.mac         = gcc
+CPP_SERIAL.mac        = g++
+CCFLAG_SERIAL.mac     = 
+CPPFLAG_SERIAL.mac    = 
+
+F90.mac               = 
+F90_OPTS.mac          = 
+F90_LIB.mac           = 
+
+CC.mac                = $(CC_$(MODE).mac)
+CPP.mac               = $(CPP_$(MODE).mac)
+CCFLAG.mac            = $(CCFLAG_$(MODE).mac)
+CPPFLAG.mac           = $(CPPFLAG_$(MODE).mac)
+
+
+F90.mac               = 
+F90_OPTS.mac          = 
+F90_LIB.mac           = 
+
+CC.mac                = $(CC_$(MODE).mac)
+CPP.mac               = $(CPP_$(MODE).mac)
+CCFLAG.mac            = $(CCFLAG_$(MODE).mac)
+CPPFLAG.mac           = $(CPPFLAG_$(MODE).mac)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.mac       = -L/usr/X11R6/lib
+XLIB_LIB.mac          = -L/usr/X11R6/lib -lX11
+XLIB_INCS.mac         =
+
+MPI_LIBDIR.mac        =
+MPI_LIB.mac           =
+MPI_INCS.mac          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.mac      = 
+INCS_PARALLEL.mac     = 
+
+LIB_SERIAL.mac        = -lm
+INCS_SERIAL.mac       =
+
+
+
+########################################################
+#
+#    System type: bgl.gcc
+#
+#    LC BlueGene/Light system using gcc compiler
+#
+#    Systems:  bgl
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+
+CC_PARALLEL.bgl.gcc       = /bgl/BlueLight/ppcfloor/blrts-gnu/bin/powerpc-bgl-blrts-gnu-gcc
+CPP_PARALLEL.bgl.gcc      = /bgl/BlueLight/ppcfloor/blrts-gnu/bin/powerpc-bgl-blrts-gnu-g++
+CCFLAG_PARALLEL.bgl.gcc   = -D_BGL -DPARALLEL=1
+CPPFLAG_PARALLEL.bgl.gcc  = -D_BGL
+
+CC_SERIAL.bgl.gcc         = gcc
+CPP_SERIAL.bgl.gcc        = g++
+CCFLAG_SERIAL.bgl.gcc     = -D_BGL 
+CPPFLAG_SERIAL.bgl.gcc    = -D_BGL
+
+F90.bgl.gcc               = blrts_xlf90
+F90_OPTS.bgl.gcc          = -qextname -qstrict -qfree=f90
+F90_LIB.bgl.gcc           = -L/opt/ibmcmp/xlsmp/bg/1.6/blrts_lib \
+                            -L/opt/ibmcmp/xlf/bg/10.1/blrts_lib \
+                            -lxlf90 -lxlopt -lxlomp_ser -lxl -lxlfmath
+
+CC.bgl.gcc                = $(CC_$(MODE).bgl.gcc)
+CPP.bgl.gcc               = $(CPP_$(MODE).bgl.gcc)
+CCFLAG.bgl.gcc            = $(CCFLAG_$(MODE).bgl.gcc)
+CPPFLAG.bgl.gcc           = $(CPPFLAG_$(MODE).bgl.gcc)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.bgl.gcc       =
+XLIB_LIB.bgl.gcc          =
+XLIB_INCS.bgl.gcc         =
+
+MPI_LIBDIR.bgl.gcc        =
+MPI_LIB.bgl.gcc           =
+MPI_INCS.bgl.gcc          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.bgl.gcc      = -L/bgl/BlueLight/ppcfloor/bglsys/lib -lmpich.rts \
+                            -lmsglayer.rts -lrts.rts -ldevices.rts
+INCS_PARALLEL.bgl.gcc     = -I/bgl/BlueLight/ppcfloor/bglsys/include
+
+LIB_SERIAL.bgl.gcc        = -lm
+INCS_SERIAL.bgl.gcc       =
+
+
+########################################################
+#
+#    System type: ubgl
+#
+#    LC BlueGene/Light systems
+#
+#    Systems:  ubgl
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+
+CC_PARALLEL.ubgl       = /usr/local/bin/mpxlc
+CPP_PARALLEL.ubgl      = /usr/local/bin/mpxlC
+CCFLAG_PARALLEL.ubgl   = -D_BGL -DPARALLEL=1 -qarch=440 \
+                        -qstrict -qcpluscmt
+CPPFLAG_PARALLEL.ubgl  = -D_BGL
+
+CC_SERIAL.ubgl         = gcc
+CPP_SERIAL.ubgl        = g++
+CCFLAG_SERIAL.ubgl     = -D_BGL 
+CPPFLAG_SERIAL.ubgl    = -D_BGL
+
+F90.ubgl               = /usr/local/bin/mpxlf90
+F90_OPTS.ubgl          = -qextname -qstrict -qfree=f90 -qarch=440
+F90_LIB.ubgl            = -L/usr/local/tools/xl/xl.9-11.PTF2/opt/ibmcmp/xlsmp/bg/1.7/blrts_lib -L/usr/local/tools/xl/xl.9-11.PTF2/opt/ibmcmp/xlmass/bg/4.4/blrts_lib -L/usr/local/tools/xl/xl.9-11.PTF2/opt/ibmcmp/xlf/bg/11.1/blrts_lib \
+			-lxlf90 -lxlopt -lxlomp_ser -lxl -lxlfmath
+
+CC.ubgl                = $(CC_$(MODE).ubgl)
+CPP.ubgl               = $(CPP_$(MODE).ubgl)
+CCFLAG.ubgl            = $(CCFLAG_$(MODE).ubgl)
+CPPFLAG.ubgl           = $(CPPFLAG_$(MODE).ubgl)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.ubgl       =
+XLIB_LIB.ubgl          =
+XLIB_INCS.ubgl         =
+
+MPI_LIBDIR.ubgl        =
+MPI_LIB.ubgl           =
+MPI_INCS.ubgl          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.ubgl      = -lmass
+INCS_PARALLEL.ubgl     = 
+
+LIB_SERIAL.ubgl        = -lm
+INCS_SERIAL.ubgl       =
+
+
+########################################################
+#
+#    System type: bgp
+#
+#    LC BG/P systems
+#
+#    Systems:  dawn, dawndev
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+
+CC_PARALLEL.bgp       = /usr/local/bin/mpixlc_r
+CPP_PARALLEL.bgp      = /usr/local/bin/mpixlcxx_r
+#
+# NOTES: -qflttrap="..." is very costly (~30% more expensive), but
+#                    does force aborts on numeric errors which helps
+#                    during testing.
+#        -qarch=450d requires -qtune=450, [-O3|-O4|-O5],
+#                    needs 16-byte alignment, but cannot be combined
+#                    with -qflttrap.  Slight gains, but not much
+#
+# For testing, use:
+#     -qarch=450 -qtune=450 -qhot \
+#     -qflttrap=enable:imprecise:invalid:overflow:underflow:zerodivide
+#
+# For production, use:
+#     -qarch=450d -qtune=450 -qhot
+# 
+CCFLAG_PARALLEL.bgp   = -D_BGP -DPARALLEL=1 \
+                        -qarch=450d -qtune=450 -qhot \
+                        -qstrict -qcpluscmt
+CPPFLAG_PARALLEL.bgp  = -D_BGP -DPARALLEL=1 \
+                        -qarch=450d -qtune=450 -qhot \
+                        -qstrict
+
+CC_SERIAL.bgp         = xlc_r
+CPP_SERIAL.bgp        = xlC_r
+CCFLAG_SERIAL.bgp     = -D_BGP -qstrict
+CPPFLAG_SERIAL.bgp    = -D_BGP -qstrict
+
+F90.bgp               = /usr/local/bin/bgxlf90_r
+F90_OPTS.bgp          =
+F90_LIB.bgp           =
+
+CC.bgp                = $(CC_$(MODE).bgp)
+CPP.bgp               = $(CPP_$(MODE).bgp)
+CCFLAG.bgp            = $(CCFLAG_$(MODE).bgp)
+CPPFLAG.bgp           = $(CPPFLAG_$(MODE).bgp)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.bgp       =
+XLIB_LIB.bgp          =
+XLIB_INCS.bgp         =
+
+MPI_LIBDIR.bgp        =
+MPI_LIB.bgp           =
+MPI_INCS.bgp          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.bgp      = -lmass
+INCS_PARALLEL.bgp     = -I/bgsys/drivers/ppcfloor/arch/include
+
+LIB_SERIAL.bgp        = -lmass
+INCS_SERIAL.bgp       =
+
+#
+#  The "-qsmp=omp" assumes -O2 optimization. For debugging, try
+#  "-qsmp=omp:noopt" to turn of optimization of parallelized code.
+#
+OPENMP_FLAG.bgp       = -qsmp=omp
+
+
+########################################################
+#
+#    System type: dec 
+#
+#    LC DEC systems using native compilers and MPI
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.dec       = cc
+CPP_PARALLEL.dec      = cxx
+CCFLAG_PARALLEL.dec   = -DPARALLEL=1
+CPPFLAG_PARALLEL.dec  = -pthread
+
+CC_SERIAL.dec         = cc
+CPP_SERIAL.dec        = cxx
+CCFLAG_SERIAL.dec     = 
+CPPFLAG_SERIAL.dec    = -pthread
+
+F90.dec               = f90
+F90_OPTS.dec          =
+F90_LIB.dec           = -lfor
+
+CC.dec                = $(CC_$(MODE).dec)
+CPP.dec               = $(CPP_$(MODE).dec)
+CCFLAG.dec            = $(CCFLAG_$(MODE).dec)
+CPPFLAG.dec           = $(CPPFLAG_$(MODE).dec)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.dec       = /usr/X11R6/lib
+XLIB_LIB.dec          = -L$(XLIB_LIBDIR.dec) -lX11 -lpthread
+XLIB_INCS.dec         =
+
+MPI_LIBDIR.dec        = 
+MPI_LIB.dec           = -lmpi -lrt -lpthread
+MPI_INCS.dec          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.dec          = -lm
+INCS_PARALLEL.dec         =     
+
+LIB_SERIAL.dec            = -lm
+INCS_SERIAL.dec           =
+
+
+########################################################
+#
+#    System type: dec.mpich
+#
+#    LC DEC systems using mpich
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.dec.mpich       = mpicc
+CPP_PARALLEL.dec.mpich      = mpiCC
+CCFLAG_PARALLEL.dec.mpich   = -DPARALLEL=1
+CPPFLAG_PARALLEL.dec.mpich  = -pthread
+
+CC_SERIAL.dec.mpich         = cc
+CPP_SERIAL.dec.mpich        = c++
+CCFLAG_SERIAL.dec.mpich     =
+CPPFLAG_SERIAL.dec.mpich    = -pthread
+
+F90.dec.mpich               = f90
+F90_OPTS.dec.mpich          =
+F90_LIB.dec.mpich           = -lfor
+
+CC.dec.mpich                = $(CC_$(MODE).dec.mpich)
+CPP.dec.mpich               = $(CPP_$(MODE).dec.mpich)
+CCFLAG.dec.mpich            = $(CCFLAG_$(MODE).dec.mpich)
+CPPFLAG.dec.mpich           = $(CPPFLAG_$(MODE).dec.mpich)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.dec.mpich = /usr/X11R6/lib
+XLIB_LIB.dec.mpich    = -L$(XLIB_LIBDIR.dec.mpich) -lX11 -lpthread
+XLIB_INCS.dec.mpich   =
+
+MPI_LIBDIR.dec.mpich  = 
+MPI_LIB.dec.mpich     = -lmpich -lpthread
+MPI_INCS.dec.mpich    =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.dec.mpich      = -lm
+INCS_PARALLEL.dec.mpich     = 
+
+LIB_SERIAL.dec.mpich        = -lm
+INCS_SERIAL.dec.mpich       =
+
+
+########################################################
+#
+#    System type: titans 
+#
+#    LLNL parallel linux cluster 
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.titans       = mpicc
+CPP_PARALLEL.titans      = mpiCC
+CCFLAG_PARALLEL.titans   = -DPARALLEL=1
+CPPFLAG_PARALLEL.titans  =
+
+CC_SERIAL.titans         = cc
+CPP_SERIAL.titans        = c++
+CCFLAG_SERIAL.titans     = 
+CPPFLAG_SERIAL.titans    =
+
+F90.titans                  = 
+F90_OPTS.titans             =
+F90_LIB.titans              = 
+
+CC.titans                = $(CC_$(MODE).titans)
+CPP.titans               = $(CPP_$(MODE).titans)
+CCFLAG.titans            = $(CCFLAG_$(MODE).titans)
+CPPFLAG.titans           = $(CPPFLAG_$(MODE).titans)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.titans     = /usr/X11R6/lib
+XLIB_LIB.titans        = -L$(XLIB_LIBDIR.titans) -lX11 -lpthread
+XLIB_INCS.titans       =
+
+MPI_LIBDIR.titans      = /usr/rels/mpich/lib
+MPI_LIB.titans         = -L$(MPI_LIBDIR.titans) -lmpich
+MPI_INCS.titans        = -I/usr/rels/mpich/include
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.titans    = -lm
+INCS_PARALLEL.titans   = 
+
+LIB_SERIAL.titans      = -lm
+
+
+########################################################
+#
+#    System type: mcr (mcr, pengra)
+#
+#    LC parallel linux cluster using intel copilers with
+#    floating-point exceptions enabled
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.mcr       = mpiicc
+CPP_PARALLEL.mcr      = mpiicpc
+CCFLAG_PARALLEL.mcr   = -DFPES_ON -DPARALLEL=1 
+CPPFLAG_PARALLEL.mcr  =
+
+CC_SERIAL.mcr         = icc
+CPP_SERIAL.mcr        = icpc 
+CCFLAG_SERIAL.mcr     = -DFPES_ON 
+CPPFLAG_SERIAL.mcr    =
+
+F90.mcr               = ifort
+F90_OPTS.mcr          = 
+F90_LIB.mcr           = -lifcore
+
+CC.mcr                = $(CC_$(MODE).mcr)
+CPP.mcr               = $(CPP_$(MODE).mcr)
+CCFLAG.mcr            = $(CCFLAG_$(MODE).mcr)
+CPPFLAG.mcr           = $(CPPFLAG_$(MODE).mcr)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.mcr       = /usr/X11R6/lib
+XLIB_LIB.mcr          = -L$(XLIB_LIBDIR.mcr) -lX11 -lpthread
+XLIB_INCS.mcr         =
+
+MPI_LIBDIR.mcr        = 
+MPI_LIB.mcr           = -lmpi -lrt -lpthread
+MPI_INCS.mcr          =
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.mcr      = -L/usr/local/tools/fpu/lib -lfpcontrol -lm
+INCS_PARALLEL.mcr     = -I/usr/local/include \
+                               -I/usr/local/tools/fpu/include
+
+LIB_SERIAL.mcr        = -L/usr/local/tools/fpu/lib -lfpcontrol -lm
+INCS_SERIAL.mcr       = -I/usr/local/include -I/usr/local/tools/fpu/include
+
+OPENMP_FLAG.mcr       = -openmp
+
+########################################################
+#
+#    System type:  COMET
+#    
+#    NSF-funded system operated by the San Diego 
+#    Supercomputer Center at UC San Diego
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.COMET       = /opt/mvapich2/intel/ib/bin/mpicc
+CPP_PARALLEL.COMET      = /opt/mvapich2/intel/ib/bin/mpicc 
+CCFLAG_PARALLEL.COMET   = -DPARALLEL=1 -I/opt/mvapich2/intel/ib/include
+CPPFLAG_PARALLEL.COMET  = -I/opt/mvapich2/intel/ib/include
+
+CC_SERIAL.COMET         = icc
+CPP_SERIAL.COMET        = icpc
+CCFLAG_SERIAL.COMET     = 
+CPPFLAG_SERIAL.COMET    = 
+
+F90.COMET               = ifort
+F90_OPTS.COMET          = 
+F90_LIB.COMET           = -lifcore
+
+CC.COMET                = $(CC_$(MODE).COMET)
+CPP.COMET               = $(CPP_$(MODE).COMET)
+CCFLAG.COMET            = $(CCFLAG_$(MODE).COMET)
+CPPFLAG.COMET           = $(CPPFLAG_$(MODE).COMET)
+
+XLIB_LIBDIR.COMET       = /usr/X11R6/lib64
+XLIB_LIB.COMET          = -L$(XLIB_LIBDIR.COMET) -lX11 -lpthread
+XLIB_INCS.COMET         =
+
+MPI_LIBDIR.COMET        = -L/opt/mvapich2/intel/ib/lib
+MPI_LIB.COMET           = -lmpich
+MPI_INCS.COMET          = 
+
+HDF_LIBDIR.COMET        = 
+HDF_LIB.COMET           = 
+HDF_INCS.COMET          = 
+
+OPENMP_FLAG.COMET       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.COMET      = -lm
+INCS_PARALLEL.COMET     =
+
+LIB_SERIAL.COMET        = -lm 
+INCS_SERIAL.COMET       =
+
+
+
+########################################################
+#
+#    System type:  STAMPEDE2
+#    
+#    TACC
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.STAMPEDE2       = mpiicc
+CPP_PARALLEL.STAMPEDE2      = mpiicpc
+CCFLAG_PARALLEL.STAMPEDE2   = -DPARALLEL=1
+CPPFLAG_PARALLEL.STAMPEDE2  = 
+
+CC_SERIAL.STAMPEDE2         = icc
+CPP_SERIAL.STAMPEDE2        = icpc
+CCFLAG_SERIAL.STAMPEDE2     = 
+CPPFLAG_SERIAL.STAMPEDE2    = 
+
+F90.STAMPEDE2               = ifort
+F90_OPTS.STAMPEDE2          = 
+F90_LIB.STAMPEDE2           = -lifcore
+
+CC.STAMPEDE2                = $(CC_$(MODE).STAMPEDE2)
+CPP.STAMPEDE2               = $(CPP_$(MODE).STAMPEDE2)
+CCFLAG.STAMPEDE2            = $(CCFLAG_$(MODE).STAMPEDE2)
+CPPFLAG.STAMPEDE2           = $(CPPFLAG_$(MODE).STAMPEDE2)
+
+XLIB_LIBDIR.STAMPEDE2       = /usr/X11R6/lib
+XLIB_LIB.STAMPEDE2          = -L$(XLIB_LIBDIR.STAMPEDE2) -lX11 -lpthread
+XLIB_INCS.STAMPEDE2         =
+
+MPI_LIBDIR.STAMPEDE2        = 
+MPI_LIB.STAMPEDE2           = 
+MPI_INCS.STAMPEDE2          = 
+
+HDF_LIBDIR.STAMPEDE2        = -Xlinker -rpath -Xlinker \
+			  /usr/local/tools/hdf5-intel-serial/lib \
+			  -L/usr/local/tools/hdf5-intel-serial/lib
+HDF_LIB.STAMPEDE2           = $(HDF_LIBDIR.STAMPEDE2) -lhdf5 -lhdf5_hl
+HDF_INCS.STAMPEDE2          = -I/usr/local/tools/hdf5-intel-serial/include
+
+OPENMP_FLAG.STAMPEDE2       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.STAMPEDE2      = -L$TACC_FFTW3_LIB -lfftw3f_mpi -lfftw3f
+INCS_PARALLEL.STAMPEDE2     =
+
+LIB_SERIAL.STAMPEDE2        =-L$TACC_FFTW3_LIB -lfftw3f
+INCS_SERIAL.STAMPEDE2       =
+
+
+
+########################################################
+#
+#    System type:  wcr
+#    
+#    Stanford ME linux system using intel compilers
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.wcr       = /share/apps/mvapich/intel/bin/mpicc
+CPP_PARALLEL.wcr      = /share/apps/mvapich/intel/bin/mpiCC
+CCFLAG_PARALLEL.wcr   = -DPARALLEL=1 -I/export/apps/mvapich/intel/include
+CPPFLAG_PARALLEL.wcr  = -I/export/apps/mvapich/intel/include
+
+CC_SERIAL.wcr         = icc
+CPP_SERIAL.wcr        = icpc
+CCFLAG_SERIAL.wcr     = 
+CPPFLAG_SERIAL.wcr    = 
+
+F90.wcr               = ifort
+F90_OPTS.wcr          = 
+F90_LIB.wcr           = -lifcore
+
+CC.wcr                = $(CC_$(MODE).wcr)
+CPP.wcr               = $(CPP_$(MODE).wcr)
+CCFLAG.wcr            = $(CCFLAG_$(MODE).wcr)
+CPPFLAG.wcr           = $(CPPFLAG_$(MODE).wcr)
+
+XLIB_LIBDIR.wcr       = /usr/X11R6/lib64
+XLIB_LIB.wcr          = -L$(XLIB_LIBDIR.wcr) -lX11 -lpthread
+XLIB_INCS.wcr         =
+
+MPI_LIBDIR.wcr        = -L/export/apps/mvapich/intel/lib
+MPI_LIB.wcr           = -lmpich
+MPI_INCS.wcr          = 
+
+HDF_LIBDIR.wcr        = 
+HDF_LIB.wcr           = 
+HDF_INCS.wcr          = 
+
+OPENMP_FLAG.wcr       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.wcr      = -lm
+INCS_PARALLEL.wcr     =
+
+LIB_SERIAL.wcr        =-L/opt/fftw-3.1.2/intel/lib -lm
+INCS_SERIAL.wcr       =
+
+
+
+########################################################
+#
+#    System type:  mc2
+#    
+#    Stanford ME linux system using intel compilers
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.mc2       = mpicc
+CPP_PARALLEL.mc2      = mpiCC
+CCFLAG_PARALLEL.mc2   = -DPARALLEL=1 
+CPPFLAG_PARALLEL.mc2  = 
+
+CC_SERIAL.mc2         = icc
+CPP_SERIAL.mc2        = icpc
+CCFLAG_SERIAL.mc2     = 
+CPPFLAG_SERIAL.mc2    = 
+
+F90.mc2               = ifort
+F90_OPTS.mc2          = 
+F90_LIB.mc2           = -lifcore
+
+CC.mc2                = $(CC_$(MODE).mc2)
+CPP.mc2               = $(CPP_$(MODE).mc2)
+CCFLAG.mc2            = $(CCFLAG_$(MODE).mc2)
+CPPFLAG.mc2           = $(CPPFLAG_$(MODE).mc2)
+
+XLIB_LIBDIR.mc2       = /usr/X11R6/lib64
+XLIB_LIB.mc2          = -L$(XLIB_LIBDIR.wcr) -lX11 -lpthread
+XLIB_INCS.mc2         =
+
+MPI_LIBDIR.mc2        = -L/export/apps/mvapich/intel/lib
+MPI_LIB.mc2           = -lmpich
+MPI_INCS.mc2          = 
+
+HDF_LIBDIR.mc2        = 
+HDF_LIB.mc2           = 
+HDF_INCS.mc2          = 
+
+OPENMP_FLAG.mc2       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.mc2      = -lm
+INCS_PARALLEL.mc2     =
+
+LIB_SERIAL.mc2        =-L/opt/fftw-3.1.2/intel/lib -lm
+INCS_SERIAL.mc2       =
+
+
+
+########################################################
+#
+#    System type: mc-cc 
+#
+#    Stanford ME linux system using intel compilers
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.mc-cc       = icc 
+CPP_PARALLEL.mc-cc      = icc
+CCFLAG_PARALLEL.mc-cc   = -DPARALLEL=1 -I/export/apps/mvapich/intel/include
+CPPFLAG_PARALLEL.mc-cc  = 
+
+CC_SERIAL.mc-cc         = icc
+CPP_SERIAL.mc-cc        = icpc
+CCFLAG_SERIAL.mc-cc     = 
+CPPFLAG_SERIAL.mc-cc    =
+
+F90.mc-cc               = ifort
+F90_OPTS.mc-cc          =
+F90_LIB.mc-cc           = -lifcore
+
+CC.mc-cc                = $(CC_$(MODE).mc-cc)
+CPP.mc-cc               = $(CPP_$(MODE).mc-cc)
+CCFLAG.mc-cc            = $(CCFLAG_$(MODE).mc-cc)
+CPPFLAG.mc-cc           = $(CPPFLAG_$(MODE).mc-cc)
+
+XLIB_LIBDIR.mc-cc       = /usr/X11R6/lib
+XLIB_LIB.mc-cc          = -L$(XLIB_LIBDIR.mc-cc) -lX11 -lpthread
+XLIB_INCS.mc-cc         =
+
+MPI_LIBDIR.mc-cc        = 
+MPI_LIB.mc-cc           = -lmpich
+MPI_INCS.mc-cc          =
+
+HDF_LIBDIR.mc-cc        = 
+HDF_LIB.mc-cc           = 
+HDF_INCS.mc-cc          = 
+
+OPENMP_FLAG.mc-cc       = -openmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.mc-cc      = -lm
+INCS_PARALLEL.mc-cc     =
+
+LIB_SERIAL.mc-cc        = -L/opt/fftw-3.1.2/lib -lm
+INCS_SERIAL.mc-cc       =
+
+
+
+########################################################
+#
+#    System type:  cygwin
+#    
+#    Cygwin: Linux emulator for Windows PC
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.cygwin       = mpicc
+CPP_PARALLEL.cygwin      = mpiCC
+CCFLAG_PARALLEL.cygwin   = -DPARALLEL=1
+CPPFLAG_PARALLEL.cygwin  = -D_NOLOCK -D_CYGWIN
+
+CC_SERIAL.cygwin         = gcc
+CPP_SERIAL.cygwin        = g++
+CCFLAG_SERIAL.cygwin     = 
+CPPFLAG_SERIAL.cygwin    = -D_NOLOCK -D_CYGWIN
+
+F90.cygwin               = ifort
+F90_OPTS.cygwin          = 
+F90_LIB.cygwin           = -lifcore
+
+CC.cygwin                = $(CC_$(MODE).cygwin)
+CPP.cygwin               = $(CPP_$(MODE).cygwin)
+CCFLAG.cygwin            = $(CCFLAG_$(MODE).cygwin)
+CPPFLAG.cygwin           = $(CPPFLAG_$(MODE).cygwin)
+
+XLIB_LIBDIR.cygwin       = /usr/X11R6/lib
+XLIB_LIB.cygwin          = -L$(XLIB_LIBDIR.cygwin) -lX11 -lpthread
+XLIB_INCS.cygwin         =
+
+MPI_LIBDIR.cygwin        = -L/export/apps/mvapich/intel/lib
+MPI_LIB.cygwin           = -lmpich
+MPI_INCS.cygwin          = 
+
+HDF_LIBDIR.linux        = 
+HDF_LIB.linux           = 
+HDF_INCS.linux          = 
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.cygwin      = -lm
+INCS_PARALLEL.cygwin     =
+
+LIB_SERIAL.cygwin        = -lm
+INCS_SERIAL.cygwin       =
+
+########################################################
+#
+#    System type: franklin
+#
+#    NERSC Cray XT4 system
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+CC_PARALLEL.franklin       = cc
+CPP_PARALLEL.franklin      = CC
+CCFLAG_PARALLEL.franklin   = -DPARALLEL=1 -D_XT4
+CPPFLAG_PARALLEL.franklin  = -D_XT4
+
+CC_SERIAL.franklin         = cc
+CPP_SERIAL.franklin        = CC
+CCFLAG_SERIAL.franklin     = -D_XT4
+CPPFLAG_SERIAL.franklin    = -D_XT4
+
+F90.franklin               = ftn
+F90_OPTS.franklin          =
+F90_LIB.franklin           =
+
+CC.franklin                = $(CC_$(MODE).franklin)
+CPP.franklin               = $(CPP_$(MODE).franklin)
+CCFLAG.franklin            = $(CCFLAG_$(MODE).franklin)
+CPPFLAG.franklin           = $(CPPFLAG_$(MODE).franklin)
+
+XLIB_LIBDIR.franklin       = 
+XLIB_LIB.franklin          = 
+XLIB_INCS.franklin         =
+
+MPI_LIBDIR.franklin        =
+MPI_LIB.franklin           =
+MPI_INCS.franklin          =
+
+HDF_LIBDIR.franklin        = 
+HDF_LIB.franklin           = 
+HDF_INCS.franklin          = 
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.franklin      = -lm
+INCS_PARALLEL.franklin     =
+
+LIB_SERIAL.franklin        = -lm
+INCS_SERIAL.franklin       =
+
+
+########################################################
+#
+#    System type: gcc
+#
+#    Generic Linux system build using gnu compilers
+#
+########################################################
+
+#
+#    Define parallel and serial compilers and compiler flags
+#    and set the default compiler based on the execution mode
+#    (defined by user in makefile)
+#
+#
+#    Note: Many systems require 'mpiCC' rather than the 'mpicxx'
+#          used below for CPP_PARALLEL.gcc.
+#
+
+CC_PARALLEL.gcc       = mpicc
+CPP_PARALLEL.gcc      = mpicxx
+CCFLAG_PARALLEL.gcc   = -DPARALLEL=1 -Wno-unknown-pragmas
+CPPFLAG_PARALLEL.gcc  =
+
+CC_SERIAL.gcc         = gcc -Wno-unknown-pragmas
+CPP_SERIAL.gcc        = g++
+CCFLAG_SERIAL.gcc     =
+CPPFLAG_SERIAL.gcc    =
+
+F90.gcc               = gfortran
+F90_OPTS.gcc          = 
+F90_LIB.gcc           = -lgfortran
+
+CC.gcc                = $(CC_$(MODE).gcc)
+CPP.gcc               = $(CPP_$(MODE).gcc)
+CCFLAG.gcc            = $(CCFLAG_$(MODE).gcc)
+CPPFLAG.gcc           = $(CPPFLAG_$(MODE).gcc)
+
+#
+#    Identify library and paths for X-Windows, and MPI
+#    if available
+#
+XLIB_LIBDIR.gcc       =
+XLIB_LIB.gcc          =
+XLIB_INCS.gcc         =
+
+MPI_LIBDIR.gcc        =
+MPI_LIB.gcc           = -lmpich
+MPI_INCS.gcc          =
+
+HDF_LIBDIR.gcc        = 
+HDF_LIB.gcc           = 
+HDF_INCS.gcc          = 
+
+OPENMP_FLAG.gcc       = -fopenmp
+
+#
+#    Identify any additional libraries and paths needed for compilation
+#    on this system type
+#
+LIB_PARALLEL.gcc      = -lm -lX11 -lpthread 
+INCS_PARALLEL.gcc     =
+
+LIB_SERIAL.gcc        = -lm -lX11 -lpthread
+INCS_SERIAL.gcc       =
+

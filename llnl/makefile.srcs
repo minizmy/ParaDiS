@@ -1,0 +1,149 @@
+
+#############################################################################
+#
+#    makefile.srcs:  Defines all the source modules [other than the source
+#                    containing main()] that are compiled and linked into 
+#                    the ParaDiS executable.
+#
+#                    This is provided to simplify the process of substituting
+#                    a different main() function (as is done for the FEM
+#                    coupling for paradisfem) but still compile in all the
+#                    necessary support code.
+#
+############################################################################
+
+###########################################################################
+#
+#	Define the source/object modules for the application
+#
+###########################################################################
+
+PARADIS_C_SRCS = CellCharge.c  \
+      Collision.c              \
+      CommSendGhosts.c         \
+      CommSendGhostPlanes.c    \
+      CommSendMirrorNodes.c    \
+      CommSendRemesh.c         \
+      CommSendSecondaryGhosts.c \
+      CommSendSegments.c       \
+      CommSendVelocity.c       \
+      CorrectionTable.c        \
+      CrossSlip.c              \
+      CrossSlipBCC.c           \
+      CrossSlipFCC.c           \
+      DebugFunctions.c         \
+      Decomp.c                 \
+      DeltaPlasticStrain.c     \
+      DeltaPlasticStrain_BCC.c \
+      DeltaPlasticStrain_FCC.c \
+      DisableUnneededParams.c  \
+      DLBfreeOld.c             \
+      deWitInteraction.c       \
+      FindPreciseGlidePlane.c  \
+      FixRemesh.c              \
+      FMComm.c                 \
+      FMSigma2.c               \
+      FMSupport.c              \
+      ForwardEulerIntegrator.c \
+      FreeInitArrays.c         \
+      GenerateOutput.c         \
+      GetDensityDelta.c        \
+      GetNewNativeNode.c       \
+      GetNewGhostNode.c        \
+      Gnuplot.c                \
+      Heap.c                   \
+      InitCellDomains.c        \
+      InitCellNatives.c        \
+      InitCellNeighbors.c      \
+      InitHome.c               \
+      InitRemoteDomains.c      \
+      InitSendDomains.c        \
+      Initialize.c             \
+      InputSanity.c            \
+      LoadCurve.c              \
+      LocalSegForces.c         \
+      Matrix.c                 \
+      Meminfo.c                \
+      MemCheck.c               \
+      Migrate.c                \
+      MobilityLaw_BCC_0.c      \
+      MobilityLaw_BCC_0b.c     \
+      MobilityLaw_BCC_glide.c  \
+      MobilityLaw_FCC_0.c      \
+      MobilityLaw_FCC_0b.c     \
+      MobilityLaw_FCC_climb.c  \
+      MobilityLaw_Relax.c      \
+      NodeForce.c              \
+      NodeVelocity.c           \
+      OsmoticForce.c           \
+      ParadisInit.c            \
+      ParadisFinish.c          \
+      ParadisStep.c            \
+      ParadisThread.c          \
+      Param.c                  \
+      Parse.c                  \
+      PickScrewGlidePlane.c    \
+      Plot.c                   \
+      PredictiveCollision.c    \
+      ProximityCollision.c     \
+      QueueOps.c               \
+      ReadRestart.c            \
+      ReadBinaryRestart.c      \
+      ResetGlidePlanes.c       \
+      RBDecomp.c               \
+      RSDecomp.c               \
+      RemapInitialTags.c       \
+      Remesh.c                 \
+      RemeshRule_2.c           \
+      RemeshRule_3.c           \
+      RemoteSegForces.c        \
+      RemoveNode.c             \
+      SemiInfiniteSegSegForce.c \
+      SortNativeNodes.c        \
+      SortNodesForCollision.c  \
+      SplitSurfaceNodes.c      \
+      Tecplot.c                \
+      Timer.c                  \
+      Topology.c               \
+      TrapezoidIntegrator.c    \
+      Util.c                   \
+      WriteArms.c              \
+      WriteAtomEye.c	       \
+      WriteBinaryRestart.c     \
+      WriteDensFlux.c          \
+      WriteDensityField.c      \
+      WriteForce.c             \
+      WriteFragments.c         \
+      WritePoleFig.c           \
+      WritePovray.c            \
+      WriteProp.c              \
+      WriteRestart.c           \
+      WriteVelocity.c          \
+      WriteVisit.c
+
+PARADIS_CPP_SRCS = DisplayC.C display.C
+
+PARADIS_SRCS = $(PARADIS_C_SRCS) $(PARADIS_CPP_SRCS)
+PARADIS_OBJS = $(PARADIS_C_SRCS:.c=.o) $(PARADIS_CPP_SRCS:.C=.o)
+
+
+###########################################################################
+#
+#	Define the source/object modules for the ctablegen utility
+#
+###########################################################################
+
+CTABLEGEN_SRCS = CTableGen.c             \
+                 CorrectionTable.c       \
+                 FindPreciseGlidePlane.c \
+                 FMSigma2.c              \
+                 FMSupport.c             \
+                 Matrix.c                \
+                 Heap.c                  \
+                 MemCheck.c              \
+                 PickScrewGlidePlane.c   \
+                 QueueOps.c              \
+                 Util.c
+
+CTABLEGEN_OBJS = $(CTABLEGEN_SRCS:.c=.o)
+

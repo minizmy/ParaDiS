@@ -1,0 +1,101 @@
+  echo "Removing files" 
+  mkdir -p Include
+  rm -f *.c Include/*.h makefile README.txt
+
+  echo "Copying files from ../thinfilm and making simple changes" 
+  cp ../thinfilm/*.c ../thinfilm/makefile .
+  cp ../thinfilm/Include/*.h Include
+
+  mv TF_Main.c HS_Main.c
+  mv TF_Util.c HS_Util.c
+  mv ThinFilm_Remesh.c HalfSpace_Remesh.c
+  mv thinfilm.c halfspace.c
+  mv Include/TF.h Include/HS.h
+
+  sed -i -e 's/paradistf/paradishs/g' makefile 
+  sed -i -e 's/TF/HS/g' makefile *.c Include/*.h
+  sed -i -e 's/THINFILM/HALFSPACE/g' makefile *.c Include/*.h
+  sed -i -e 's/ThinFilm/HalfSpace/g' makefile *.c Include/*.h
+  sed -i -e 's/thinfilm/halfspace/g' makefile *.c Include/*.h
+  sed -i -e 's/thin film/half space/g' makefile *.c Include/*.h
+  sed -i -e 's/thin film/half space/g' makefile *.c Include/*.h
+  sed -i -e 's/Thin Film/Half Space/g' makefile *.c Include/*.h
+  sed -i -e 's/Thin film/Half space/g' makefile *.c Include/*.h
+
+#1. modify Include/HS.h
+  echo "Modify Include/HS.h" 
+  sed -i -e 's/nx,ny/nx,ny,numimages/' Include/HS.h
+  sed -i -e 's/HSLx,HSLy,t/HSLx,HSLy,HSLzinf/' Include/HS.h
+  sed -i -e 's/fftw_complex\*[\t ]*Txp;/fftw_complex\*     Tx;/' Include/HS.h
+  sed -i -e 's/fftw_complex\*[\t ]*Typ;/fftw_complex\*     Ty;/' Include/HS.h
+  sed -i -e 's/fftw_complex\*[\t ]*Tzp;/fftw_complex\*     Tz;/' Include/HS.h
+  sed -i -e 's/fftw_complex\*[\t ]*Txm;/\/\/fftw_complex\*     Tx;/' Include/HS.h
+  sed -i -e 's/fftw_complex\*[\t ]*Tym;/\/\/fftw_complex\*     Ty;/' Include/HS.h
+  sed -i -e 's/fftw_complex\*[\t ]*Tzm;/\/\/fftw_complex\*     Tz;/' Include/HS.h
+  sed -i -e 's/COMPLEX\*\*[\t ]*E;/\/\/COMPLEX\*\* E;/' Include/HS.h
+  sed -i -e 's/COMPLEX\*\*[\t ]*F;/\/\/COMPLEX\*\* F;/' Include/HS.h
+  sed -i -e 's/COMPLEX\*\*[\t ]*G;/\/\/COMPLEX\*\* G;/' Include/HS.h
+  sed -i -e 's/COMPLEX\*\*[\t ]*MsInv/COMPLEX\*\* MInv/' Include/HS.h
+  sed -i -e 's/COMPLEX\*\*[\t ]*MaInv/\/\/COMPLEX\*\* MaInv/' Include/HS.h
+
+#2. modify Include/Param.h
+  echo "cp Include/Param.h.new Include/Param.h"
+  cp Include/Param.h.new Include/Param.h
+
+
+#3. modify HS_Util.c
+  sed -i -e 's/Txp/Tx/' HS_Util.c
+  sed -i -e 's/Typ/Ty/' HS_Util.c
+  sed -i -e 's/Tzp/Tz/' HS_Util.c
+  sed -i -e 's/free[^$]*Txm[^$]*$/\/\/free(Txm);free(Tym);free(Tzm);/' HS_Util.c
+  sed -i -e 's/free[^$]*E\[i\][^$]*$/\/\/free(E\[i\]);free(F\[i\]);free(G\[i\]);/' HS_Util.c
+
+  #If any manual changes are introduced, uncomment the following
+  echo "cp HS_Util.c.new HS_Util.c"
+  cp HS_Util.c.new HS_Util.c
+
+
+#4. modify ABCcoeff.c
+  echo "cp ABCcoeff.new ABCcoeff.c"
+  cp ABCcoeff.c.new ABCcoeff.c
+
+
+#5. modify AllSegmentStress.c
+  echo "Modify AllSegmentStress.c" 
+  sed -i -e 's/t = halfspace[^$]*$/ t = 0.0;/' AllSegmentStress.c
+
+#6. modify AllYoffeStress.c
+  echo "Modify AllYoffeStress.c" 
+  sed -i -e 's/ t = halfspace[^$]*$/ t = 0.0;/' AllYoffeStress.c
+
+#7. modify DispStress.c
+  echo "cp DispStress.c.new DispStress.c"
+  cp DispStress.c.new DispStress.c
+
+#8. modify Initialize.c
+   echo "Modify Initialize.c" 
+   sed -i -e 's/h = 2\*param/h = 1*param/' Initialize.c 
+   sed -i -e 's/tf_halfthickness/hs_Lzinf/' Initialize.c 
+
+#9. modify Minvmatrix.c
+  echo "cp Minvmatrix.c.new Minvmatrix.c"
+  cp Minvmatrix.c.new Minvmatrix.c
+
+#8. modify Param.c
+   echo "Modify Param.c" 
+   sed -i -e 's/tf_halfthickness/hs_Lzinf/' Param.c
+   sed -i -e 's/tf_/hs_/' Param.c 
+
+#9. modify Plot.c
+   echo "Modify Plot.c" 
+   sed -i -e 's/tf_halfthickness/hs_Lzinf/' Plot.c
+
+#10. modify HalfSpaceRemesh.c
+   echo "Modify HalfSpaceRemesh.c" 
+   sed -i -e 's/ t = halfspace[^$]*$/ t = 0.0;/' HalfSpace_Remesh.c
+   sed -i -e 's/tf_halfthickness/hs_Lzinf/'      HalfSpace_Remesh.c
+
+#11. modify halfspace.c
+  echo "cp halfspace.c.new halfspace.c"
+  cp halfspace.c.new halfspace.c
+

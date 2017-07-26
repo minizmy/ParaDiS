@@ -1,0 +1,275 @@
+ParaDiS Public Release 2.5.1:
+-----------------------------
+
+The primary changes between the version 2.3.5 and version
+2.5.1 releases of ParaDiS are as follows:
+
+    - Two alternative FCC mobility functions ("FCC_0b" and "FCC_climb") have
+      been added.  See section 7.2 of the ParaDiS User's Guide for a brief
+      description of these mobility modules.
+
+    - The flux decomposition code has been reworked and extended to
+      support FCC materials.
+
+    - A new 'predictive' collision handling method has been introduced
+      into the code, replacing the old 'proximity' method as the default.
+      However, the proximity method can still be selected at run time via
+      the "collisionMethod" control file parameter.  Additionally, the
+      proximity collision handling was modified to improve selection of
+      collision points when planar mobilities are in use, and handling of
+      'hinge' collisions was rewritten to fix some bugs.
+
+    - The mesh coarsening functions were modified to allow
+      nodes with multiple glide constraints to be coarsened
+      out under specific circumstances.  Primarily needed
+      for use with planar mobility functions.
+
+    - Incorporated modifications (based on code from Bing Liu
+      and others at the Max-Planck-Institut fur Eisenforschung)
+      to support rotation from a laboratory frame to the
+      crystalographic frame.  (See <useLabFrame>, <labFrameXDir>,
+      <labFrameYDir> and <labFrameZDir> control file parameters.)
+
+    - The cross-slip functions were significantly modified.  Changes
+      included introduction of a threshold which cross-slip stress must
+      exceed before a cross-slip event is attempted.  Adding the ability
+      to cross-slip immovable nodes if they are already in perfect
+      position.  Removing the ability to cross-slip a node onto a third
+      plane for two segments on different planes.  Adding checks to
+      verify that a cross-slip nucleus will continue moving outward
+      into the cross-slip plane before committing to the cross-slip event,
+      and adding a check to prevent cross-slip 'zipper' events if the
+      segment forces contra-indicate the necessity.
+
+    - Extended code for selecting an appropriate glide plane for new
+      screw segments to support FCC materials as well as BCC.
+
+    - Modified generation of the control parameter file to
+      write out only those parameters appropriate to the
+      simulation being run, and those explicitly provided by
+      the user.
+
+    - Code was added to force newly created segments (regardless of
+      whether segments were screw or not) onto exact glide planes
+      rather than calculate glide planes from l cross b which allowed
+      small glide plane discrepancies to creep into the simulation.
+      Note: this is only enabled with planar mobility functions such
+      as BCC_glide or the FCC mobilities.
+
+    - Added support for writing nodal and segment data formatted
+      for use with the VisIt visualization tool.  Also added support for
+      periodically writing output files containing node specific forces.
+      See sections 12.7 and 13.5 in the ParaDiS User's Guide for more
+      information.
+
+    - Removed all support for the obsolete TeraScale Browser
+      visualization tool.
+
+    - Various small bug fixes, code cleanup, documentation updates, etc.
+
+    - Note: some preliminary work on adding threading via OpenMP
+      has been done, however, this effort is not yet complete
+      and is not yet fully supported.
+
+
+
+ParaDiS Public Release 2.3.5:
+-----------------------------
+
+The primary changes to the public version of ParaDiS since
+the version 2.2.6 release are as follows:
+
+    - Added a new BCC mobility function (BCC_glide) which enforces
+      dislocation motion along associated glide-planes, along with
+      a mechanism to allow cross-slip in BCC.
+
+    - The obsolete FCC_2 mobility function has been removed, while
+      the FCC_0 mobility and an asscoiated cross-slip function have
+      been added (thanks to our collaborators at Stanford University).
+
+    - Creation of prismatic loops via paradisgen utility has been
+      completely redone to properly generate vacancy or interstitial
+      loops.  Additionally a mechanism for creating initial configurations
+      that are edge (well, not pure edge) rather than screw has been
+      added to paradisgen.
+
+    - Added optional osmotic force calculations into the code.
+
+    - Numerous bug were fixed, including several significant bugs:
+      * If the Rijm* tables was used for far-field forces rather than
+        using FMM, one of the Rijm* tables was incorrectly distributed
+        for multi-processor runs.
+      * Cell IDs were not being set properly for secondary ghost nodes.
+      * The FMM code was not properly accounting for a conditional
+        convergence issue (again, thanks to our Stanford friends for
+        identifying and fixing this problem).
+
+    - The Recursive Bisection (type 2) domain decomposition has been
+      modified to remove the restriction that the number of domains
+      per dimension be a power of 2.
+
+    - A variety of small changes were added to improve support for
+      a local finite-element code with hooks into ParaDiS, and
+      to support new mobility functions that are more dependent
+      on dislocation glide-planes.
+
+    - A great deal of code cleanup was done, including removing
+      obsolete prototypes, functions, and variables,  adding some
+      missing prototypes and fixing minor mismatches between
+      function parameters and prototypes, makefile tweaks, adding
+      or removing debug code as appropriate, and so on.
+      compiler
+
+There were also a few internal changes that might be of interest to
+anyone modifying their own copies of the code.  These changes include:
+
+    - The memory management in the FMM code was altered to be
+      less bloated for large simulations.  This did involve some
+      structure changes and changes to the cell lookup mechanism.
+      The EncodeIndex() function in the FMM code was also renamed
+      to EncodeFMMCellIndex() for clarity
+
+    - Added each cell's per-dimension indices to the cell structure
+      and modified code (where possible) to use those indices rather
+      than convert the cell ID to indices. 
+
+    - The NodeForce() and PartialForces() functions were merged
+      in order to help simplify things a little.
+
+    - Nodal constraint values that were previously hard-coded througout
+      the source have been replaced with compile-time definitions; again
+      for clarity.
+
+    - Calls to the SplitNode() function now have an additional argument
+      that was needed for improved support for a local FEM code.
+
+
+ParaDiS Public Release 2.2.6:
+-----------------------------
+
+The list below briefly describes most of the updates that have
+been included into ParaDiS.v2.2.6:
+
+    - There were minor changes to the format of FMM correction table.
+      IMPORTANT: Although correction tables generated with previous
+      versions of ParaDiS are still supported, a correction table
+      generated with version 2.2.6 cannot be used with earlier
+      versions of the code.
+
+    - Added 'calcdensity' utility for generating density field
+      output from a restart file.
+
+    - A new 'properties' output file has been added for reporting
+      incremental density changes by burgers vector.  See section
+      13.2.2.7 in the docs/ParaDiSInfo.txt for details.
+
+    - Added optional inertial terms to the BCC_0 mobility module.  
+      Option is enabled via the <includeInertia> and <massDensity>
+      control file parameters.  See parameter descriptions in
+      the docs/ParaDiSInfo.txt file.
+      
+    - Added modifications from the Stanford folks, including
+      code to do full n^2 forces (serial only), a new line tension
+      model, and minor bug fixes in writing properties output.
+
+    - Code modifications to allow mixtures of periodic bounds and
+      free surfaces, plus modifications to 'paradisgen' to handle
+      mixed boundary conditions for certain config types.  This
+      is primarily for users coupling ParaDiS coupled with a
+      Finite Element code, since use of free surfaces is not fully
+      supported without this coupling.
+
+    - Various small bug fixes, commentation changes, and code cleanup.
+
+
+ParaDiS Public Release 2.2.5:
+-----------------------------
+
+The public release of version 2.2.5  of ParaDiS contains a variety
+of updates to the 2.2.3 version.  The list below briefly describes
+most of the updates that have been included into ParaDiS.v2.2.5:
+
+
+    - For multi-processor simulations, the total force on some segments
+      was summed to incorrectly include duplicated segment/segment
+      interactions.
+
+    - Minor updates to the force calculations for near-parallel segments
+
+    - Both collision handling and remesh contained a bug which could result
+      in bad nodal force estimates for the nodes involved in certain segment
+      interactions.
+
+    - Collision handling code was fixed to prevent throwing nodes long
+      distances when the colliding segment planes are near parallel.
+
+    - The mechanism for recalculating force/velocity on nodes that have been
+      involved in collisions or other topological events has been redesigned
+      to utilize the same code used for the full force calculations in order
+      to ensure more accurate force/velocity values at the start of a
+      timestep.
+
+    - Previously, forces between any given pair of segments were calculated
+      in one processor and communicated to neighboring processors as
+      necessary.  Now, all segment forces are calculated only once and
+      communicated using the same mechanism.
+
+    - A problem with the ability to do parallel I/O on restart files and
+      subsequently restart with different domain geometries was fixed.
+
+    - A binary restart file capability has been reintroduced into ParaDiS.
+
+    - Minor bug fixes, code cleanup, and documentation updates.
+
+
+
+ParaDiS Public Release 2.2.3:
+-----------------------------
+
+The public release of version 2.2.3  of ParaDiS contains a variety
+of updates to the 2.2 version.  A number of the updates are small
+but there are a few significant changes and several very important
+fixes.  The list below briefly describes most of the updates that
+have been included into ParaDiS.v2.2.3:
+
+
+    - Several important errors related to the calculation of remote
+      forces via the FMM code were fixed:
+
+        + The code for generating the FMM image correction table has
+          been fixed to replace an incorrect algorithm that was inadvertently
+          introduced into ParaDiS.v2.2.
+
+          IMPORTANT! Due to this change, all FMM image correction tables
+                     must be rebuilt with this new release.  The default
+                     correction table supplied with this release has
+                     be regenerated with correct values.
+
+        + An inconsistency in the way FMM remote forces were calculated for
+          some segments crossing cell boundaries has been corrected.
+
+        + A bug, which resulted in an incorrect list of neighboring
+          cells while setting taylor expansion coefficients during the
+          FMM downward pass, has been corrected.
+
+    - The original parallel design of ParaDiS had a flaw which allowed the
+      code to 'miss' some of the needed local segment-to-segment force
+      calculations.  Code has been added to communicate a layer of 'secondary
+      ghost nodes' in order to insure all needed local force calculations are
+      be done.
+
+    - Minor updates to the force calculations for near-parallel segments
+
+    - The problem generator has been modified to allow creation of frank-read
+      sources, and has changes to speed up the creation of very large
+      problems.
+
+    - Added code to create 'fragment' files containing dislocation line
+      fragment information in a format that can be used with the ViSIt
+      visualization tool.
+
+    - Added various sanity checks during code initialization for such things
+      as insuring conservation of burger's vector, consistency of burgers
+      vector at both ends of a segment, and so on.
+
+    - Minor bug fixes, code cleanup, and documentation updates.

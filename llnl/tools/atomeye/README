@@ -1,0 +1,20 @@
+
+AtomEye: atomistic configuration viewer
+
+
+              features | file formats | manual | download | history | contact 
+
+                       This software is free. Please cite 
+                J. Li, Modelling Simul. Mater. Sci. Eng. 11 (2003) 173 
+         if you use figures and animations produced by AtomEye in your publications. 
+
+Web site: http://164.107.79.177/Archive/Graphics/A/
+
+latest version downloaded from: http://mt.seas.upenn.edu/Stuff/Wei/A/
+
+test:
+     on linux
+              ./A.i686 paradis.cfg
+
+     on cygwin
+              ./A.exe  paradis.cfg

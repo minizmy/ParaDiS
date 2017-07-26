@@ -1,0 +1,323 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace
+END
+Param.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Param.c
+END
+SemiInfiniteSegSegForce.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/SemiInfiniteSegSegForce.c
+END
+TrapezoidIntegrator.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/TrapezoidIntegrator.c
+END
+Initialize.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Initialize.c
+END
+DeltaPlasticStrain_BCC.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/DeltaPlasticStrain_BCC.c
+END
+DispStress.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/DispStress.c
+END
+makefile.dep
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ParaDiS/!svn/ver/720/llnl/halfspace/makefile.dep
+END
+NodeForce.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/NodeForce.c
+END
+ImgSelfForce.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/ImgSelfForce.c
+END
+DeltaPlasticStrain_FCC.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/DeltaPlasticStrain_FCC.c
+END
+MobilityLaw_BCC_glide.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/MobilityLaw_BCC_glide.c
+END
+HS_Util.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/HS_Util.c
+END
+PredictiveCollision.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/PredictiveCollision.c
+END
+Compute.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Compute.c
+END
+Topology.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Topology.c
+END
+Plot.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Plot.c
+END
+halfspace.c.new
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/halfspace.c.new
+END
+ParadisStep.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/ParadisStep.c
+END
+ABCcoeff.c.new
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/ABCcoeff.c.new
+END
+CrossSlip.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/CrossSlip.c
+END
+MobilityLaw_Relax.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/MobilityLaw_Relax.c
+END
+InputSanity.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/InputSanity.c
+END
+HalfSpace_Remesh.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/HalfSpace_Remesh.c
+END
+Fourier_transforms.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Fourier_transforms.c
+END
+DeltaPlasticStrain.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/DeltaPlasticStrain.c
+END
+LocalSegForces.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/LocalSegForces.c
+END
+DispStress.c.new
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/DispStress.c.new
+END
+Minvmatrix.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Minvmatrix.c
+END
+HS_Util.c.new
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/HS_Util.c.new
+END
+AllSegmentStress.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/AllSegmentStress.c
+END
+PrintStress.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/PrintStress.c
+END
+ForwardEulerIntegrator.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/ForwardEulerIntegrator.c
+END
+convert_thinfilm_to_halfspace
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/convert_thinfilm_to_halfspace
+END
+AllYoffeStress.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/AllYoffeStress.c
+END
+SegmentStress.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/SegmentStress.c
+END
+Yoffe.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Yoffe.c
+END
+test_YoffeInfStress.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/test_YoffeInfStress.c
+END
+Util.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Util.c
+END
+HS_Main.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/HS_Main.c
+END
+ProximityCollision.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/ProximityCollision.c
+END
+MobilityLaw_BCC_0.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/MobilityLaw_BCC_0.c
+END
+Remesh.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Remesh.c
+END
+MobilityLaw_BCC_0b.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/MobilityLaw_BCC_0b.c
+END
+MobilityLaw_FCC_0.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/MobilityLaw_FCC_0.c
+END
+Minvmatrix.c.new
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Minvmatrix.c.new
+END
+halfspace.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/halfspace.c
+END
+MobilityLaw_FCC_2.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/MobilityLaw_FCC_2.c
+END
+ABCcoeff.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/ABCcoeff.c
+END
+CrossSlipBCC.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/CrossSlipBCC.c
+END
+RemeshRule_2.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/RemeshRule_2.c
+END
+makefile
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/makefile
+END
+CrossSlipFCC.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/CrossSlipFCC.c
+END
+Yoffe_corr.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/ParaDiS/!svn/ver/728/llnl/halfspace/Yoffe_corr.c
+END

@@ -1,0 +1,710 @@
+#!/bin/bash
+
+# (2017/07/17) by ill
+# Check GB nucleation (offset from GB)
+# Need to check the proper loop size
+
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_1.ctrl > tests/Boundary_TEST6/D150_1.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_2.ctrl > tests/Boundary_TEST6/D150_2.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_3.ctrl > tests/Boundary_TEST6/D150_3.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_4.ctrl > tests/Boundary_TEST6/D150_4.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_5.ctrl > tests/Boundary_TEST6/D150_5.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_6.ctrl > tests/Boundary_TEST6/D150_6.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_7.ctrl > tests/Boundary_TEST6/D150_7.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_8.ctrl > tests/Boundary_TEST6/D150_8.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_9.ctrl > tests/Boundary_TEST6/D150_9.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D150_10.ctrl > tests/Boundary_TEST6/D150_10.out &
+#
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_1.ctrl > tests/Boundary_TEST6/D300_1.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_2.ctrl > tests/Boundary_TEST6/D300_2.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_3.ctrl > tests/Boundary_TEST6/D300_3.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_4.ctrl > tests/Boundary_TEST6/D300_4.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_5.ctrl > tests/Boundary_TEST6/D300_5.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_6.ctrl > tests/Boundary_TEST6/D300_6.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_7.ctrl > tests/Boundary_TEST6/D300_7.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_8.ctrl > tests/Boundary_TEST6/D300_8.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_9.ctrl > tests/Boundary_TEST6/D300_9.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D300_10.ctrl > tests/Boundary_TEST6/D300_10.out &
+#
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_1.ctrl > tests/Boundary_TEST6/D600_1.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_2.ctrl > tests/Boundary_TEST6/D600_2.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_3.ctrl > tests/Boundary_TEST6/D600_3.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_4.ctrl > tests/Boundary_TEST6/D600_4.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_5.ctrl > tests/Boundary_TEST6/D600_5.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_6.ctrl > tests/Boundary_TEST6/D600_6.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_7.ctrl > tests/Boundary_TEST6/D600_7.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_8.ctrl > tests/Boundary_TEST6/D600_8.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_9.ctrl > tests/Boundary_TEST6/D600_9.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D600_10.ctrl > tests/Boundary_TEST6/D600_10.out &
+#
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_1.ctrl > tests/Boundary_TEST6/D1000_1.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_2.ctrl > tests/Boundary_TEST6/D1000_2.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_3.ctrl > tests/Boundary_TEST6/D1000_3.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_4.ctrl > tests/Boundary_TEST6/D1000_4.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_5.ctrl > tests/Boundary_TEST6/D1000_5.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_6.ctrl > tests/Boundary_TEST6/D1000_6.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_7.ctrl > tests/Boundary_TEST6/D1000_7.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_8.ctrl > tests/Boundary_TEST6/D1000_8.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_9.ctrl > tests/Boundary_TEST6/D1000_9.out &
+#./bin/BoundaryTest6 tests/Boundary_TEST6/D1000_10.ctrl > tests/Boundary_TEST6/D1000_10.out &
+##
+# (2017/07/13) by ill
+# Check the previous code - cylinder_Bound_Back
+#
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D150_11.ctrl > tests/Boundary_TEST5/D150_11.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D150_12.ctrl > tests/Boundary_TEST5/D150_12.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D150_13.ctrl > tests/Boundary_TEST5/D150_13.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D150_14.ctrl > tests/Boundary_TEST5/D150_14.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D150_15.ctrl > tests/Boundary_TEST5/D150_15.out &
+#
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D300_11.ctrl > tests/Boundary_TEST5/D300_11.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D300_12.ctrl > tests/Boundary_TEST5/D300_12.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D300_13.ctrl > tests/Boundary_TEST5/D300_13.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D300_14.ctrl > tests/Boundary_TEST5/D300_14.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D300_15.ctrl > tests/Boundary_TEST5/D300_15.out &
+
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D600_11.ctrl > tests/Boundary_TEST5/D600_11.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D600_12.ctrl > tests/Boundary_TEST5/D600_12.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D600_13.ctrl > tests/Boundary_TEST5/D600_13.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D600_14.ctrl > tests/Boundary_TEST5/D600_14.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D600_15.ctrl > tests/Boundary_TEST5/D600_15.out &
+#
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D1000_11.ctrl > tests/Boundary_TEST5/D1000_11.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D1000_12.ctrl > tests/Boundary_TEST5/D1000_12.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D1000_13.ctrl > tests/Boundary_TEST5/D1000_13.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D1000_14.ctrl > tests/Boundary_TEST5/D1000_14.out &
+#./bin/BoundaryTest5 tests/Boundary_TEST5/D1000_15.ctrl > tests/Boundary_TEST5/D1000_15.out &
+
+# (2017/07/04) by ill
+# Check the Boundary_Remesh by all steps
+#
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_1.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_1.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_2.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_2.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_3.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_3.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_4.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_4.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_5.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_5.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_6.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_6.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_7.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_7.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_8.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_8.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_9.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_9.out &
+#./bin/cyl_bound_step2_nostep4 tests/Boundary_TEST6_step2_nostep4/D150_10.ctrl > tests/Boundary_TEST6_step2_nostep4/D150_10.out &
+#
+
+# (2017/06/30) by ill
+# Compare the cases without internal boundary with the same source code
+#
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D150_11.ctrl > tests/Boundary_TEST5/D150_11.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D150_12.ctrl > tests/Boundary_TEST5/D150_12.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D150_13.ctrl > tests/Boundary_TEST5/D150_13.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D150_14.ctrl > tests/Boundary_TEST5/D150_14.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D150_15.ctrl > tests/Boundary_TEST5/D150_15.out &
+#
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D300_11.ctrl > tests/Boundary_TEST5/D300_11.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D300_12.ctrl > tests/Boundary_TEST5/D300_12.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D300_13.ctrl > tests/Boundary_TEST5/D300_13.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D300_14.ctrl > tests/Boundary_TEST5/D300_14.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D300_15.ctrl > tests/Boundary_TEST5/D300_15.out &
+#
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D600_11.ctrl > tests/Boundary_TEST5/D600_11.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D600_12.ctrl > tests/Boundary_TEST5/D600_12.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D600_13.ctrl > tests/Boundary_TEST5/D600_13.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D600_14.ctrl > tests/Boundary_TEST5/D600_14.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D600_15.ctrl > tests/Boundary_TEST5/D600_15.out &
+#
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D1000_11.ctrl > tests/Boundary_TEST5/D1000_11.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D1000_12.ctrl > tests/Boundary_TEST5/D1000_12.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D1000_13.ctrl > tests/Boundary_TEST5/D1000_13.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D1000_14.ctrl > tests/Boundary_TEST5/D1000_14.out &
+#./bin/cyl_bound_back_nobound tests/Boundary_TEST5/D1000_15.ctrl > tests/Boundary_TEST5/D1000_15.out &
+
+# (2017/06/29) by ill
+# Check the previous code - cylinder_Bound_Back
+#
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_1.ctrl > tests/Boundary_TEST5/D150_1.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_2.ctrl > tests/Boundary_TEST5/D150_2.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_3.ctrl > tests/Boundary_TEST5/D150_3.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_4.ctrl > tests/Boundary_TEST5/D150_4.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_5.ctrl > tests/Boundary_TEST5/D150_5.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_6.ctrl > tests/Boundary_TEST5/D150_6.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_7.ctrl > tests/Boundary_TEST5/D150_7.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_8.ctrl > tests/Boundary_TEST5/D150_8.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_9.ctrl > tests/Boundary_TEST5/D150_9.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D150_10.ctrl > tests/Boundary_TEST5/D150_10.out &
+
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_1.ctrl > tests/Boundary_TEST5/D300_1.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_2.ctrl > tests/Boundary_TEST5/D300_2.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_3.ctrl > tests/Boundary_TEST5/D300_3.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_4.ctrl > tests/Boundary_TEST5/D300_4.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_5.ctrl > tests/Boundary_TEST5/D300_5.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_6.ctrl > tests/Boundary_TEST5/D300_6.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_7.ctrl > tests/Boundary_TEST5/D300_7.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_8.ctrl > tests/Boundary_TEST5/D300_8.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_9.ctrl > tests/Boundary_TEST5/D300_9.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D300_10.ctrl > tests/Boundary_TEST5/D300_10.out &
+
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_1.ctrl > tests/Boundary_TEST5/D600_1.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_2.ctrl > tests/Boundary_TEST5/D600_2.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_3.ctrl > tests/Boundary_TEST5/D600_3.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_4.ctrl > tests/Boundary_TEST5/D600_4.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_5.ctrl > tests/Boundary_TEST5/D600_5.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_6.ctrl > tests/Boundary_TEST5/D600_6.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_7.ctrl > tests/Boundary_TEST5/D600_7.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_8.ctrl > tests/Boundary_TEST5/D600_8.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_9.ctrl > tests/Boundary_TEST5/D600_9.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D600_10.ctrl > tests/Boundary_TEST5/D600_10.out &
+
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_1.ctrl > tests/Boundary_TEST5/D1000_1.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_2.ctrl > tests/Boundary_TEST5/D1000_2.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_3.ctrl > tests/Boundary_TEST5/D1000_3.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_4.ctrl > tests/Boundary_TEST5/D1000_4.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_5.ctrl > tests/Boundary_TEST5/D1000_5.out &
+./bin/cyl_bound_back tests/Boundary_TEST5/D1000_6.ctrl > tests/Boundary_TEST5/D1000_6.out &
+./bin/cyl_bound_back tests/Boundary_TEST5/D1000_7.ctrl > tests/Boundary_TEST5/D1000_7.out &
+./bin/cyl_bound_back tests/Boundary_TEST5/D1000_8.ctrl > tests/Boundary_TEST5/D1000_8.out &
+./bin/cyl_bound_back tests/Boundary_TEST5/D1000_9.ctrl > tests/Boundary_TEST5/D1000_9.out &
+./bin/cyl_bound_back tests/Boundary_TEST5/D1000_10.ctrl > tests/Boundary_TEST5/D1000_10.out &
+
+# Run Bicrystal tension
+#
+#./bin/cyl_bound tests/Boundary_TEST6/D150_1.ctrl > tests/Boundary_TEST6/D150_1.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_2.ctrl > tests/Boundary_TEST6/D150_2.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_3.ctrl > tests/Boundary_TEST6/D150_3.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_4.ctrl > tests/Boundary_TEST6/D150_4.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_5.ctrl > tests/Boundary_TEST6/D150_5.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_6.ctrl > tests/Boundary_TEST6/D150_6.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_7.ctrl > tests/Boundary_TEST6/D150_7.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_8.ctrl > tests/Boundary_TEST6/D150_8.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_9.ctrl > tests/Boundary_TEST6/D150_9.out &
+#./bin/cyl_bound tests/Boundary_TEST6/D150_10.ctrl > tests/Boundary_TEST6/D150_10.out &
+#
+# (2017/06/07) by Nicole
+# Run BCC_Relaxation mobility ratio=100
+#
+#./bin/RELAX tests/BCC_Relax_R100/D150_1.ctrl > tests/BCC_Relax_R100/D150_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_2.ctrl > tests/BCC_Relax_R100/D150_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_3.ctrl > tests/BCC_Relax_R100/D150_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_4.ctrl > tests/BCC_Relax_R100/D150_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_5.ctrl > tests/BCC_Relax_R100/D150_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_6.ctrl > tests/BCC_Relax_R100/D150_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_7.ctrl > tests/BCC_Relax_R100/D150_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_8.ctrl > tests/BCC_Relax_R100/D150_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_9.ctrl > tests/BCC_Relax_R100/D150_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_10.ctrl > tests/BCC_Relax_R100/D150_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_11.ctrl > tests/BCC_Relax_R100/D150_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_12.ctrl > tests/BCC_Relax_R100/D150_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_13.ctrl > tests/BCC_Relax_R100/D150_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_14.ctrl > tests/BCC_Relax_R100/D150_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_15.ctrl > tests/BCC_Relax_R100/D150_15.out &
+
+#./bin/RELAX tests/BCC_Relax_R100/D300_1.ctrl > tests/BCC_Relax_R100/D300_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_2.ctrl > tests/BCC_Relax_R100/D300_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_3.ctrl > tests/BCC_Relax_R100/D300_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_4.ctrl > tests/BCC_Relax_R100/D300_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_5.ctrl > tests/BCC_Relax_R100/D300_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_6.ctrl > tests/BCC_Relax_R100/D300_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_7.ctrl > tests/BCC_Relax_R100/D300_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_8.ctrl > tests/BCC_Relax_R100/D300_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_9.ctrl > tests/BCC_Relax_R100/D300_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_10.ctrl > tests/BCC_Relax_R100/D300_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_11.ctrl > tests/BCC_Relax_R100/D300_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_12.ctrl > tests/BCC_Relax_R100/D300_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_13.ctrl > tests/BCC_Relax_R100/D300_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_14.ctrl > tests/BCC_Relax_R100/D300_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_15.ctrl > tests/BCC_Relax_R100/D300_15.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_16.ctrl > tests/BCC_Relax_R100/D300_16.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_17.ctrl > tests/BCC_Relax_R100/D300_17.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_18.ctrl > tests/BCC_Relax_R100/D300_18.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_19.ctrl > tests/BCC_Relax_R100/D300_19.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_20.ctrl > tests/BCC_Relax_R100/D300_20.out &
+
+#./bin/RELAX tests/BCC_Relax_R100/D600_1.ctrl > tests/BCC_Relax_R100/D600_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_2.ctrl > tests/BCC_Relax_R100/D600_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_3.ctrl > tests/BCC_Relax_R100/D600_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_4.ctrl > tests/BCC_Relax_R100/D600_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_5.ctrl > tests/BCC_Relax_R100/D600_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_6.ctrl > tests/BCC_Relax_R100/D600_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_7.ctrl > tests/BCC_Relax_R100/D600_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_8.ctrl > tests/BCC_Relax_R100/D600_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_9.ctrl > tests/BCC_Relax_R100/D600_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_10.ctrl > tests/BCC_Relax_R100/D600_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_11.ctrl > tests/BCC_Relax_R100/D600_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_12.ctrl > tests/BCC_Relax_R100/D600_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_13.ctrl > tests/BCC_Relax_R100/D600_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_14.ctrl > tests/BCC_Relax_R100/D600_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_15.ctrl > tests/BCC_Relax_R100/D600_15.out &
+
+#./bin/RELAX tests/BCC_Relax_R100/D1000_1.ctrl > tests/BCC_Relax_R100/D1000_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_1.ctrl > tests/BCC_Relax_R100/D1000_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_2.ctrl > tests/BCC_Relax_R100/D1000_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_3.ctrl > tests/BCC_Relax_R100/D1000_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_4.ctrl > tests/BCC_Relax_R100/D1000_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_5.ctrl > tests/BCC_Relax_R100/D1000_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_6.ctrl > tests/BCC_Relax_R100/D1000_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_7.ctrl > tests/BCC_Relax_R100/D1000_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_8.ctrl > tests/BCC_Relax_R100/D1000_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_9.ctrl > tests/BCC_Relax_R100/D1000_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_10.ctrl > tests/BCC_Relax_R100/D1000_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_11.ctrl > tests/BCC_Relax_R100/D1000_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_12.ctrl > tests/BCC_Relax_R100/D1000_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_13.ctrl > tests/BCC_Relax_R100/D1000_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_14.ctrl > tests/BCC_Relax_R100/D1000_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_15.ctrl > tests/BCC_Relax_R100/D1000_15.out &
+
+
+# (2017/06/06) by Nicole
+# Run BCC_Relaxation mobility ratio=100
+
+#./bin/RELAX tests/BCC_Relax_R100/D150_1.ctrl > tests/BCC_Relax_R100/D150_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_2.ctrl > tests/BCC_Relax_R100/D150_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_3.ctrl > tests/BCC_Relax_R100/D150_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_4.ctrl > tests/BCC_Relax_R100/D150_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_5.ctrl > tests/BCC_Relax_R100/D150_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_6.ctrl > tests/BCC_Relax_R100/D150_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_7.ctrl > tests/BCC_Relax_R100/D150_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_8.ctrl > tests/BCC_Relax_R100/D150_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_9.ctrl > tests/BCC_Relax_R100/D150_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_10.ctrl > tests/BCC_Relax_R100/D150_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_11.ctrl > tests/BCC_Relax_R100/D150_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_12.ctrl > tests/BCC_Relax_R100/D150_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_13.ctrl > tests/BCC_Relax_R100/D150_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_14.ctrl > tests/BCC_Relax_R100/D150_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D150_15.ctrl > tests/BCC_Relax_R100/D150_15.out &
+
+#./bin/RELAX tests/BCC_Relax_R100/D300_1.ctrl > tests/BCC_Relax_R100/D300_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_2.ctrl > tests/BCC_Relax_R100/D300_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_3.ctrl > tests/BCC_Relax_R100/D300_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_4.ctrl > tests/BCC_Relax_R100/D300_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_5.ctrl > tests/BCC_Relax_R100/D300_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_6.ctrl > tests/BCC_Relax_R100/D300_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_7.ctrl > tests/BCC_Relax_R100/D300_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_8.ctrl > tests/BCC_Relax_R100/D300_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_9.ctrl > tests/BCC_Relax_R100/D300_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_10.ctrl > tests/BCC_Relax_R100/D300_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_11.ctrl > tests/BCC_Relax_R100/D300_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_12.ctrl > tests/BCC_Relax_R100/D300_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_13.ctrl > tests/BCC_Relax_R100/D300_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_14.ctrl > tests/BCC_Relax_R100/D300_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D300_15.ctrl > tests/BCC_Relax_R100/D300_15.out &
+
+#./bin/RELAX tests/BCC_Relax_R100/D600_1.ctrl > tests/BCC_Relax_R100/D600_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_2.ctrl > tests/BCC_Relax_R100/D600_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_3.ctrl > tests/BCC_Relax_R100/D600_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_4.ctrl > tests/BCC_Relax_R100/D600_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_5.ctrl > tests/BCC_Relax_R100/D600_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_6.ctrl > tests/BCC_Relax_R100/D600_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_7.ctrl > tests/BCC_Relax_R100/D600_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_8.ctrl > tests/BCC_Relax_R100/D600_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_9.ctrl > tests/BCC_Relax_R100/D600_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_10.ctrl > tests/BCC_Relax_R100/D600_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_11.ctrl > tests/BCC_Relax_R100/D600_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_12.ctrl > tests/BCC_Relax_R100/D600_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_13.ctrl > tests/BCC_Relax_R100/D600_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_14.ctrl > tests/BCC_Relax_R100/D600_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D600_15.ctrl > tests/BCC_Relax_R100/D600_15.out &
+
+#./bin/RELAX tests/BCC_Relax_R100/D1000_1.ctrl > tests/BCC_Relax_R100/D1000_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_1.ctrl > tests/BCC_Relax_R100/D1000_1.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_2.ctrl > tests/BCC_Relax_R100/D1000_2.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_3.ctrl > tests/BCC_Relax_R100/D1000_3.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_4.ctrl > tests/BCC_Relax_R100/D1000_4.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_5.ctrl > tests/BCC_Relax_R100/D1000_5.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_6.ctrl > tests/BCC_Relax_R100/D1000_6.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_7.ctrl > tests/BCC_Relax_R100/D1000_7.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_8.ctrl > tests/BCC_Relax_R100/D1000_8.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_9.ctrl > tests/BCC_Relax_R100/D1000_9.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_10.ctrl > tests/BCC_Relax_R100/D1000_10.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_11.ctrl > tests/BCC_Relax_R100/D1000_11.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_12.ctrl > tests/BCC_Relax_R100/D1000_12.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_13.ctrl > tests/BCC_Relax_R100/D1000_13.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_14.ctrl > tests/BCC_Relax_R100/D1000_14.out &
+#./bin/RELAX tests/BCC_Relax_R100/D1000_15.ctrl > tests/BCC_Relax_R100/D1000_15.out &
+
+# (2017/05/10)
+# Run BCC_Relaxation 
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_1.ctrl > tests/BCC_Relax_R100/D150_1.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_2.ctrl > tests/BCC_Relax_R100/D150_2.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_3.ctrl > tests/BCC_Relax_R100/D150_3.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_4.ctrl > tests/BCC_Relax_R100/D150_4.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_5.ctrl > tests/BCC_Relax_R100/D150_5.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_6.ctrl > tests/BCC_Relax_R100/D150_6.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_7.ctrl > tests/BCC_Relax_R100/D150_7.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_8.ctrl > tests/BCC_Relax_R100/D150_8.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_9.ctrl > tests/BCC_Relax_R100/D150_9.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D150_10.ctrl > tests/BCC_Relax_R100/D150_10.out &
+#                                                                                                                                            
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_1.ctrl > tests/BCC_Relax_R100/D300_1.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_2.ctrl > tests/BCC_Relax_R100/D300_2.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_3.ctrl > tests/BCC_Relax_R100/D300_3.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_4.ctrl > tests/BCC_Relax_R100/D300_4.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_5.ctrl > tests/BCC_Relax_R100/D300_5.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_6.ctrl > tests/BCC_Relax_R100/D300_6.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_7.ctrl > tests/BCC_Relax_R100/D300_7.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_8.ctrl > tests/BCC_Relax_R100/D300_8.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_9.ctrl > tests/BCC_Relax_R100/D300_9.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D300_10.ctrl > tests/BCC_Relax_R100/D300_10.out &
+#                                                                                                                                            
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_1.ctrl > tests/BCC_Relax_R100/D600_1.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_2.ctrl > tests/BCC_Relax_R100/D600_2.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_3.ctrl > tests/BCC_Relax_R100/D600_3.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_4.ctrl > tests/BCC_Relax_R100/D600_4.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_5.ctrl > tests/BCC_Relax_R100/D600_5.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_6.ctrl > tests/BCC_Relax_R100/D600_6.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_7.ctrl > tests/BCC_Relax_R100/D600_7.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_8.ctrl > tests/BCC_Relax_R100/D600_8.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_9.ctrl > tests/BCC_Relax_R100/D600_9.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D600_10.ctrl > tests/BCC_Relax_R100/D600_10.out &
+ 
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_1.ctrl > tests/BCC_Relax_R100/D1000_1.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_2.ctrl > tests/BCC_Relax_R100/D1000_2.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_3.ctrl > tests/BCC_Relax_R100/D1000_3.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_4.ctrl > tests/BCC_Relax_R100/D1000_4.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_5.ctrl > tests/BCC_Relax_R100/D1000_5.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_6.ctrl > tests/BCC_Relax_R100/D1000_6.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_7.ctrl > tests/BCC_Relax_R100/D1000_7.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_8.ctrl > tests/BCC_Relax_R100/D1000_8.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_9.ctrl > tests/BCC_Relax_R100/D1000_9.out &
+#./bin/BCC_RELAX_05102017 tests/BCC_Relax_R100/D1000_10.ctrl > tests/BCC_Relax_R100/D1000_10.out &
+
+# (2017/03/23)
+# Run BCC_TENSION to see the effect of mobility ratio between screw and edge
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D150_1.ctrl > tests/BCC_TENSION_R100/D150_1.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D150_2.ctrl > tests/BCC_TENSION_R100/D150_2.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D150_3.ctrl > tests/BCC_TENSION_R100/D150_3.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D150_4.ctrl > tests/BCC_TENSION_R100/D150_4.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D150_5.ctrl > tests/BCC_TENSION_R100/D150_5.out &
+                                                                                                                                             
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D300_1.ctrl > tests/BCC_TENSION_R100/D300_1.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D300_2.ctrl > tests/BCC_TENSION_R100/D300_2.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D300_3.ctrl > tests/BCC_TENSION_R100/D300_3.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D300_4.ctrl > tests/BCC_TENSION_R100/D300_4.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D300_5.ctrl > tests/BCC_TENSION_R100/D300_5.out &
+                                                                                                                                             
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D600_1.ctrl > tests/BCC_TENSION_R100/D600_1.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D600_2.ctrl > tests/BCC_TENSION_R100/D600_2.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D600_3.ctrl > tests/BCC_TENSION_R100/D600_3.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D600_4.ctrl > tests/BCC_TENSION_R100/D600_4.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D600_5.ctrl > tests/BCC_TENSION_R100/D600_5.out &
+ 
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D1000_1.ctrl > tests/BCC_TENSION_R100/D1000_1.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D1000_2.ctrl > tests/BCC_TENSION_R100/D1000_2.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D1000_3.ctrl > tests/BCC_TENSION_R100/D1000_3.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D1000_4.ctrl > tests/BCC_TENSION_R100/D1000_4.out &
+#./bin/BCC_TENSION_10292014 tests/BCC_TENSION_R100/D1000_5.ctrl > tests/BCC_TENSION_R100/D1000_5.out &
+
+# (2017/03/23)
+# Run TENSION_after_TORSION 
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D150_1.ctrl > tests/FCC_TORSION_after_TENSION3/D150_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D150_2.ctrl > tests/FCC_TORSION_after_TENSION3/D150_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D150_3.ctrl > tests/FCC_TORSION_after_TENSION3/D150_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D150_4.ctrl > tests/FCC_TORSION_after_TENSION3/D150_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D150_5.ctrl > tests/FCC_TORSION_after_TENSION3/D150_5.out &
+                                                                                                                                             
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D300_1.ctrl > tests/FCC_TORSION_after_TENSION3/D300_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D300_2.ctrl > tests/FCC_TORSION_after_TENSION3/D300_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D300_3.ctrl > tests/FCC_TORSION_after_TENSION3/D300_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D300_4.ctrl > tests/FCC_TORSION_after_TENSION3/D300_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D300_5.ctrl > tests/FCC_TORSION_after_TENSION3/D300_5.out &
+                                                                                                                                             
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D600_1.ctrl > tests/FCC_TORSION_after_TENSION3/D600_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D600_2.ctrl > tests/FCC_TORSION_after_TENSION3/D600_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D600_3.ctrl > tests/FCC_TORSION_after_TENSION3/D600_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D600_4.ctrl > tests/FCC_TORSION_after_TENSION3/D600_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D600_5.ctrl > tests/FCC_TORSION_after_TENSION3/D600_5.out &
+ 
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D1000_1.ctrl > tests/FCC_TORSION_after_TENSION3/D1000_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D1000_2.ctrl > tests/FCC_TORSION_after_TENSION3/D1000_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D1000_3.ctrl > tests/FCC_TORSION_after_TENSION3/D1000_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D1000_4.ctrl > tests/FCC_TORSION_after_TENSION3/D1000_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_after_TENSION3/D1000_5.ctrl > tests/FCC_TORSION_after_TENSION3/D1000_5.out &
+
+# (2017/03/21)
+# Torsion nucleation criterion check - RSS is chosen for NucSTRESS
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D150_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D150_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D150_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D150_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D150_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D150_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D150_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D150_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D150_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D150_5.out &
+                                                                                                                             
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D300_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D300_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D300_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D300_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D300_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D300_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D300_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D300_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D300_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D300_5.out &
+                                                                                                                             
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D600_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D600_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D600_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D600_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D600_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D600_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D600_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D600_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D600_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D600_5.out &
+                                                                                                                             
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff3 tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff3/D1000_5.out &
+
+# Tension nucleation criterion check - RSS is chosen for NucSTRESS
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D150_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D150_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D150_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D150_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D150_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D150_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D150_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D150_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D150_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D150_5.out &
+ 
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D300_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D300_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D300_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D300_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D300_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D300_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D300_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D300_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D300_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D300_5.out &
+ 
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D600_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D600_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D600_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D600_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D600_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D600_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D600_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D600_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D600_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D600_5.out &
+ 
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff3 tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff3/D1000_5.out &
+
+# (2017/03/14)
+# Run TENSION_after_TORSION 
+# Check if the twist boundary condition is satisfied(Zboundary=1). 
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D150_5.out &
+
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D300_5.out &
+
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D600_5.out &
+
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2_Zb1/D1000_5.out &
+
+# (2017/03/08)
+# Run TENSION_after_TORSION for lager samples(D=600nm,1000nm)
+# Check if the twist boundary condition is satisfied. 
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D600_5.out &
+
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D1000_5.out &
+
+# (2017/03/07)
+# Rerun Torsion to have longer simulation than TACC
+# NucSTRESSCon = 2.0, NucSTRESSConSD = 1.0
+# NucLocal = 0, NucLocalCoeff = 0.2
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D150_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D150_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D150_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D150_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D150_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D150_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D150_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D150_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D150_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D150_5.out &
+
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D300_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D300_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D300_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D300_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D300_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D300_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D300_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D300_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D300_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D300_5.out &
+
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D600_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D600_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D600_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D600_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D600_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D600_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D600_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D600_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D600_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D600_5.out &
+
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_1.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_1.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_2.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_2.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_3.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_3.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_4.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_4.out &
+#./bin/FCC_TORSION_kMC_delocal_Coeff tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_5.ctrl > tests/FCC_TORSION_kMC_delocal_Coeff2/D1000_5.out &
+
+# (2017/03/01)
+# Rerun Torsion after tension with the same nucleation criterion with tension
+# NucSTRESSCon = 2.0, NucSTRESSConSD = 1.0
+# NucLocal = 0, NucLocalCoeff = 0.2
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D150_1.ctrl > tests/FCC_TORSION_after_TENSION2/D150_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D150_2.ctrl > tests/FCC_TORSION_after_TENSION2/D150_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D150_3.ctrl > tests/FCC_TORSION_after_TENSION2/D150_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D150_4.ctrl > tests/FCC_TORSION_after_TENSION2/D150_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D150_5.ctrl > tests/FCC_TORSION_after_TENSION2/D150_5.out &
+
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D300_1.ctrl > tests/FCC_TORSION_after_TENSION2/D300_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D300_2.ctrl > tests/FCC_TORSION_after_TENSION2/D300_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D300_3.ctrl > tests/FCC_TORSION_after_TENSION2/D300_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D300_4.ctrl > tests/FCC_TORSION_after_TENSION2/D300_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D300_5.ctrl > tests/FCC_TORSION_after_TENSION2/D300_5.out &
+
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D600_1.ctrl > tests/FCC_TORSION_after_TENSION2/D600_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D600_2.ctrl > tests/FCC_TORSION_after_TENSION2/D600_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D600_3.ctrl > tests/FCC_TORSION_after_TENSION2/D600_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D600_4.ctrl > tests/FCC_TORSION_after_TENSION2/D600_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D600_5.ctrl > tests/FCC_TORSION_after_TENSION2/D600_5.out &
+
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D1000_1.ctrl > tests/FCC_TORSION_after_TENSION2/D1000_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D1000_2.ctrl > tests/FCC_TORSION_after_TENSION2/D1000_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D1000_3.ctrl > tests/FCC_TORSION_after_TENSION2/D1000_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D1000_4.ctrl > tests/FCC_TORSION_after_TENSION2/D1000_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION2/D1000_5.ctrl > tests/FCC_TORSION_after_TENSION2/D1000_5.out &
+
+# (2017/02/28)
+# FCC tension with the delocalized nucleaiton scheme with coefficient=0.2
+# To have the same nucleation scheme of tension after torsion
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D150_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D150_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D150_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D150_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D150_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D150_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D150_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D150_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D150_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D150_5.out &
+
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D300_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D300_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D300_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D300_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D300_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D300_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D300_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D300_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D300_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D300_5.out &
+
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D600_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D600_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D600_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D600_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D600_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D600_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D600_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D600_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D600_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D600_5.out &
+
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_1.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_1.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_2.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_2.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_3.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_3.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_4.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_4.out &
+#./bin/FCC_TENSION_kMC_delocal_Coeff2 tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_5.ctrl > tests/FCC_TENSION_kMC_delocal_Coeff2/D1000_5.out &
+
+# (2017/02/27)
+# Can see that nucleation could give rise to small plasiticity. 
+# It might be becuase of wrong calculation of plastic strain.
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D150_5.out &
+#                                   
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc2 tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal2/D300_5.out &
+#
+# (2017/02/24)
+# From FCC_TENSION_after_TORSION_Nuc, it is found that localized nucleation gives rise to unphysical hardening during tension after torsion. 
+# Using the delocalized nucleaiton scheme with coefficient=0.2
+# Since nucleation never occured for larger micropillars(D=600nm, 1000nm), only rerun for smalller samples. 
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D150_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc_delocal/D300_5.out &
+#
+# (2017/02/24)
+# (restart)due to sudden poweroff
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_1_result/restart/rs1257 > tests/FCC_TENSION_after_TORSION_Nuc/D600_1_restart.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_2_result/restart/rs1395 > tests/FCC_TENSION_after_TORSION_Nuc/D600_2_restart.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_3_result/restart/rs1946 > tests/FCC_TENSION_after_TORSION_Nuc/D600_3_restart.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_4_result/restart/rs1030 > tests/FCC_TENSION_after_TORSION_Nuc/D600_4_restart.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_5_result/restart/rs0942 > tests/FCC_TENSION_after_TORSION_Nuc/D600_5_restart.out &
+
+# (2017/02/23)
+# After modifying the nucleation at Tension after torsion
+# Previously, torsional loading is still used for tension after torsion as a nucleation criterion. 
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D150_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D150_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D150_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D150_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D150_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D150_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D150_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D150_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D150_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D150_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D300_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D300_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D300_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D300_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D300_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D300_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D300_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D300_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D300_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D300_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D600_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D600_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D600_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D600_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D600_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D600_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D1000_1.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D1000_1.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D1000_2.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D1000_2.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D1000_3.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D1000_3.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D1000_4.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D1000_4.out &
+#./bin/FCC_TENSION_after_TORSION_Nuc tests/FCC_TENSION_after_TORSION_Nuc/D1000_5.ctrl > tests/FCC_TENSION_after_TORSION_Nuc/D1000_5.out &
+#
+# (2017/02/14)
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D150_1.ctrl > tests/FCC_TENSION_after_TORSION/D150_1.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D150_2.ctrl > tests/FCC_TENSION_after_TORSION/D150_2.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D150_3.ctrl > tests/FCC_TENSION_after_TORSION/D150_3.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D150_4.ctrl > tests/FCC_TENSION_after_TORSION/D150_4.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D150_5.ctrl > tests/FCC_TENSION_after_TORSION/D150_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D300_1.ctrl > tests/FCC_TENSION_after_TORSION/D300_1.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D300_2.ctrl > tests/FCC_TENSION_after_TORSION/D300_2.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D300_3.ctrl > tests/FCC_TENSION_after_TORSION/D300_3.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D300_4.ctrl > tests/FCC_TENSION_after_TORSION/D300_4.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D300_5.ctrl > tests/FCC_TENSION_after_TORSION/D300_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D600_1.ctrl > tests/FCC_TENSION_after_TORSION/D600_1.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D600_2.ctrl > tests/FCC_TENSION_after_TORSION/D600_2.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D600_3.ctrl > tests/FCC_TENSION_after_TORSION/D600_3.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D600_4.ctrl > tests/FCC_TENSION_after_TORSION/D600_4.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D600_5.ctrl > tests/FCC_TENSION_after_TORSION/D600_5.out &
+#
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D1000_1.ctrl > tests/FCC_TENSION_after_TORSION/D1000_1.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D1000_2.ctrl > tests/FCC_TENSION_after_TORSION/D1000_2.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D1000_3.ctrl > tests/FCC_TENSION_after_TORSION/D1000_3.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D1000_4.ctrl > tests/FCC_TENSION_after_TORSION/D1000_4.out &
+#./bin/FCC_TENSION_after_TORSION tests/FCC_TENSION_after_TORSION/D1000_5.ctrl > tests/FCC_TENSION_after_TORSION/D1000_5.out &
+#
+# (2017/02/14)
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D150_1.ctrl > tests/FCC_TORSION_after_TENSION/D150_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D150_2.ctrl > tests/FCC_TORSION_after_TENSION/D150_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D150_3.ctrl > tests/FCC_TORSION_after_TENSION/D150_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D150_4.ctrl > tests/FCC_TORSION_after_TENSION/D150_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D150_5.ctrl > tests/FCC_TORSION_after_TENSION/D150_5.out &
+#
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D300_1.ctrl > tests/FCC_TORSION_after_TENSION/D300_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D300_2.ctrl > tests/FCC_TORSION_after_TENSION/D300_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D300_3.ctrl > tests/FCC_TORSION_after_TENSION/D300_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D300_4.ctrl > tests/FCC_TORSION_after_TENSION/D300_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D300_5.ctrl > tests/FCC_TORSION_after_TENSION/D300_5.out &
+#
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D600_1.ctrl > tests/FCC_TORSION_after_TENSION/D600_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D600_2.ctrl > tests/FCC_TORSION_after_TENSION/D600_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D600_3.ctrl > tests/FCC_TORSION_after_TENSION/D600_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D600_4.ctrl > tests/FCC_TORSION_after_TENSION/D600_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D600_5.ctrl > tests/FCC_TORSION_after_TENSION/D600_5.out &
+#
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D1000_1.ctrl > tests/FCC_TORSION_after_TENSION/D1000_1.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D1000_2.ctrl > tests/FCC_TORSION_after_TENSION/D1000_2.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D1000_3.ctrl > tests/FCC_TORSION_after_TENSION/D1000_3.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D1000_4.ctrl > tests/FCC_TORSION_after_TENSION/D1000_4.out &
+#./bin/FCC_TORSION_after_TENSION tests/FCC_TORSION_after_TENSION/D1000_5.ctrl > tests/FCC_TORSION_after_TENSION/D1000_5.out &

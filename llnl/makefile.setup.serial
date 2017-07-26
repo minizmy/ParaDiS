@@ -1,0 +1,290 @@
+
+#############################################################################
+#
+#    makefile.setup:  This file contain the various 'make' settings and
+#                     flags that are not system-specific.  This file
+#                     (along with makefile.sys) should be included 
+#                     at the top of the primary make file in each
+#                     directory in which make is being executed.
+#
+#############################################################################
+
+
+############################################################################
+#
+#    This first section contains the macro definitions that are
+#    used to enable/disable compile time switches.
+#
+############################################################################
+
+#
+#    Define the system type (SYS) for compilation.  Each of these
+#    'systems' is specified with the set of defintions appropriate
+#    to the system in the makefile.sys file.
+#
+#    System type       Description 
+#    -----------       -----------
+#
+#      linux           LC Intel(itanium/xeon) linux systems
+#                      using native Intel compilers.
+#                      (THUNDER, MCR, ALC, ILX, ACE, QUEEN, LILAC...)
+#
+#      linux.opteron   LC Intel(64-bit opteron) linux systems
+#                      using native Intel compilers.
+#                      (YANA, ZEUS, RHEA, ATLAS, PRISM...)
+#
+#      linux.pc        Generic linux PC
+#
+#      aix             LC IBM aix systems using native compilers
+#                      (ICE, BERG, PURPLE, UM, UP, UV...)
+#
+#      bgl             LC BlueGene/Light systems
+#                      (BGL, UBGL)
+#
+#      bgp             LC BlueGene/P systems
+#                      (dawn, dawndev)
+#
+#      dec             LC DEC systems using native compilers and MPI
+#
+#      dec.mpich       LC DEC systems using mpich
+#
+#      titans          LLNL parallel linux cluster
+#
+#      seaborg         NERSC IBM aix system
+#
+#      mcr             LC parallel linux cluster using intel copilers
+#                      with floating-point exceptions enabled
+#                      (MCR, PENGRA)
+#      gcc             Generic Linux system build using gnu compilers
+#
+
+#SYS = mc2
+SYS = linux
+
+#
+#    Set the execution MODE to PARALLEL to enable compile-time support
+#    for MPI and multi-cpu support, or SERIAL for single-cpu compilation
+#
+MODE = SERIAL
+
+# MODE = PARALLEL
+
+#
+#    Set the XLIB mode to ON to enable compilation supporting the DD3d
+#    xwindow plotting capability, or OFF to disable it.
+#
+#XLIB_MODE = OFF
+
+XLIB_MODE = ON
+
+#
+#    Define the optimization level to be used during compilation
+#
+#      -g -pg  to enable profiling with gprof.  Note: for profiling on
+#              IBM systems may also need -qnoipa -Q! to turn off inlining.
+#
+#      -mp  valid with Intel icc compilers, will restrict some optimizations
+#           that may alter results of calculations.
+#
+# OPT = -g -pg -O2
+# OPT = -O 
+# OPT = -O1
+# OPT = -O2
+OPT = -O3
+# OPT = -g
+
+#
+#    Set the HDF_MODE to ON to enable compilation with HDF5 support
+#    for writing binary restart files.
+#
+# HDF_MODE = ON
+
+
+#
+#    Set OPENMP_MODE to ON to enable compilation with thread
+#    support via OpenMP. 
+#
+#    WARNING: This is still under development and not fully supported!
+#
+# OPENMP_MODE = ON
+
+#######################################################################
+#
+#    Specify some miscellaneous definitions that may be used
+#    for conditional compilation puposes.
+#
+#######################################################################
+
+#
+#    FULL_N2_FORCES enables code to explicitly calculate direct
+#    segment-to-segment forces for every pair of dislocation
+#    segments in the simulation.  This will automatically disable
+#    any remote force calculations.
+#
+#    NOTE:  This is primarily for debugging/verification purposes
+#           and is only supported for serial execution.  If the
+#           compilation MODE (see above) is "PARALLEL" attempts
+#           to use FULL_N2_FORCES will not be permitted.
+#
+# DEFS += -DFULL_N2_FORCES
+
+#
+#    NAN_CHECK enables code to check the position and velocity components
+#    of all nodes for values that are NaNs or Inf, and abort if any such
+#    values are found.  This definition is for debugging purposes.
+#    
+# DEFS += -DNAN_CHECK
+
+#
+#    CHECK_MEM_USAGE enables code to calculate estimated memory usage
+#    on each task and then have the largest memory task print its
+#    memory usage.  Note: using this requires global communications!
+#    
+# DEFS += -DCHECK_MEM_USAGE
+
+#
+#    Apparently, when multiple processes on different hosts
+#    write to the same NFS-mounted file (even if access is
+#    sequentialized), consistency problems can arise resulting
+#    in corrupted data files.  Explicitly doing a 'stat' of the
+#    file on each process immediately before opening it *seems*
+#    to clear up the problem... so, when runnning in parallel
+#    and writing to NFS, define the following to compile in
+#    the additional 'stat' call before opening output files.
+#    By default this capability is disabled.
+#
+# DEFS += -DDO_IO_TO_NFS
+
+
+#
+#    Defining SYNC_TIMERS activates some additional syncronization points
+#    in the code that allow the coarse-grain timers in the code to 
+#    more accurately differentiate between time spent in certain portions
+#    of the code.  By default, these extra syncronizaation points are
+#    not enabled.
+#
+# DEFS += -DSYNC_TIMERS
+
+
+#
+#    Define WRITE_TASK_TIMES to enable creation of task-specific
+#    timing files in addition to the aggregate timing file.
+#
+# DEFS += -DWRITE_TASK_TIMES
+
+
+#
+#    Determines if the control file is pre-processed, and if so whether
+#    the post-process copy of the control file is rmoved when no longer
+#    needed.
+#
+# DEFS += -DDO_PREPROCESS
+# DEFS += -DREMOVEFULLSCRIPT
+
+
+#
+#    Affects DD3D x-window plotting
+#
+# DEFS += -DNO_THREAD
+
+
+#
+#    Enable all of the desired compile-time debug switches.
+#
+# DEFS += -DDEBUG_STEP
+# DEFS += -DDEBUG_TIMESTEP
+# DEFS += -DDEBUG_NODAL_TIMESTEP
+# DEFS += -DDEBUG_TIMESTEP_ERROR
+# DEFS += -DDEBUG_MEM
+#
+#
+#    Defining DEBUG_TOPOLOGY_CHANGES prints debug info of topological
+#    changes. The DEBUG_TOPOLOGY_DOMAIN value defines the
+#    domain for which this information is printed.  A negative value
+#    applies to all domains, a value >= 0 applies to the single
+#    corresponding domain.
+#
+# DEFS += -DDEBUG_TOPOLOGY_CHANGES -DDEBUG_TOPOLOGY_DOMAIN=-1
+#
+#
+#    Defining DEBUG_CROSSSLIP_EVENTS prints debug info about
+#    cross-slip events. The DEBUG_CROSSSLIP_DOMAIN value defines the
+#    domain for which this information is printed.  A negative value
+#    applies to all domains, a value >= 0 applies to the single
+#    corresponding domain.
+#
+# DEFS += -DDEBUG_CROSSSLIP_EVENTS -DDEBUG_CROSSSLIP_DOMAIN=-1
+#
+#
+#    If any of the following 4 definitions are uncommented 
+#    the code will sum and print the number of corresponding
+#    topological events from all domains each cycle 
+#
+# DEFS += -DDEBUG_LOG_COLLISIONS
+# DEFS += -DDEBUG_LOG_MULTI_NODE_SPLITS
+# DEFS += -DDEBUG_LOG_MESH_COARSEN
+# DEFS += -DDEBUG_LOG_MESH_REFINE
+
+
+#############################################################################
+#
+#    Define some macros to point to the correct machine specific
+#    library paths and libraries for XLIB, and MPI if they
+#    have been enabled.
+#
+#############################################################################
+
+XLIB_ON_LIB        = $(XLIB_LIB.$(SYS))
+XLIB_ON_INCS       = $(XLIB_INCS.$(SYS))
+XLIB_LIB           = $(XLIB_$(XLIB_MODE)_LIB)
+XLIB_INCS          = $(XLIB_$(XLIB_MODE)_INCS)
+
+XLIB_DEFS_OFF      = -DNO_XWINDOW
+
+HDF_ON_LIB         = $(HDF_LIB.$(SYS))
+HDF_ON_INCS        = $(HDF_INCS.$(SYS))
+HDF_LIB            = $(HDF_$(HDF_MODE)_LIB)
+HDF_INCS           = $(HDF_$(HDF_MODE)_INCS)
+
+HDF_DEFS_ON        = -DUSE_HDF
+
+
+MPI_LIB_PARALLEL   = $(MPI_LIB.$(SYS))
+MPI_INCS_PARALLEL  = $(MPI_INCS.$(SYS))
+
+MPI_LIB            = $(MPI_LIB_$(MODE))
+MPI_INCS           = $(MPI_INCS_$(MODE))
+
+LIB_PARALLEL       = $(LIB_$(MODE).$(SYS)) $(XLIB_LIB) $(MPI_LIB) \
+		     $(HDF_LIB)
+
+OPENMP_ON          = $(OPENMP_FLAG.$(SYS))
+OPENMP_FLAG        = $(OPENMP_$(OPENMP_MODE))
+
+#
+#    Define macros identifying libraries and paths for default compilation
+#    as well as for explicit serial compilation of non-parallel tools
+#
+
+CC              = $(CC_$(MODE).$(SYS))
+CPP             = $(CPP_$(MODE).$(SYS))
+DEFS           += $(XLIB_DEFS_$(XLIB_MODE)) $(HDF_DEFS_$(HDF_MODE))
+CCFLAG          = $(CCFLAG.$(SYS)) $(OPENMP_FLAG) $(DEFS)
+CPPFLAG         = $(CPPFLAG.$(SYS)) $(OPENMP_FLAG) $(DEFS) -DNO_XPM \
+                  -DNO_GENERAL -D_SEM_SEMUN_UNDEFINED
+LIB             = $(LIB_PARALLEL)
+INCS            = $(INCS_$(MODE).$(SYS)) $(XLIB_INCS) $(MPI_INCS) \
+		  $(HDF_INCS) -I ../include
+
+CC_SERIAL       = $(CC_SERIAL.$(SYS))
+CPP_SERIAL      = $(CPP_SERIAL.$(SYS))
+CCFLAG_SERIAL   = $(CCFLAG_SERIAL.$(SYS)) $(DEFS)
+CPPFLAG_SERIAL  = $(CPPFLAG_SERIAL.$(SYS)) $(DEFS) -DNO_XPM \
+                  -DNO_GENERAL -D_SEM_SEMUN_UNDEFINED 
+LIB_SERIAL      = $(LIB_SERIAL.$(SYS)) $(XLIB_LIB) $(HDF_LIB)
+INCS_SERIAL     = $(INCS_SERIAL.$(SYS)) $(XLIB_INCS) $(HDF_INCS) \
+		  -I ../include
+
+F90             = $(F90.$(SYS))
+F90_LIB         = $(F90_LIB.$(SYS))
+F90_OPTS        = $(F90_OPTS.$(SYS))
