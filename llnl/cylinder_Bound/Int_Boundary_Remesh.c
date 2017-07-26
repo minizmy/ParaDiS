@@ -59,6 +59,7 @@ The final collision point is the node A. That means that this node won't
 move outside the internal boundary plane
 
 This would correct the problem of having a node inside with flag 'INTERNAL_BOUNDARY_NODE'.
+This would correct the problem of having a node inside with flag 'INTERNAL_BOUNDARY_NODE'.
  *
  *****************************************************************************/
 #include <stdio.h>
