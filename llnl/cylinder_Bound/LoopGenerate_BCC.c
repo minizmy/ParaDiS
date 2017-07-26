@@ -20,7 +20,7 @@
 const gsl_rng *gBaseRand;       /* global rand number generator */
 
 #define DEBUG_PRINT 0
-#define DEBUG_PRINT1 0		//torsion debug (2013/10/01)
+#define DEBUG_PRINT1 0
 #define PI 3.14159265
 /*---------------------------------------------------------------------------
  *
