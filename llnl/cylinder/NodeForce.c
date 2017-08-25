@@ -690,10 +690,10 @@ void LineTensionForce(Home_t *home, real8 x1, real8 y1, real8 z1,
 	// Symmetric  bending only (Sylvie Aubry). 
         // Thinfilm normal to z axis.
 	// Bending along x or y only. 
-	BendingForce(param, cylinder, bx, by, bz, 
+    	BendingForce(param, cylinder, bx, by, bz, 
 		     x1, y1, z1, x2, y2, z2, fBend1, fBend2);
 
-	f1[0] += fBend1[0];
+    	f1[0] += fBend1[0];
         f1[1] += fBend1[1];
         f1[2] += fBend1[2];
 
