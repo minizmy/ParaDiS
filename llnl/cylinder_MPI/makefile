@@ -66,6 +66,14 @@ BINDIR = ../bin
 #	different set of preprocessor definitions than are needed
 #	here, so we need to create links in this directory back to
 #	the source modlues and create separate object modules for
+#	these sources.
+#
+
+EXTERN_C_SRCS = CellCharge.c   \
+      CommSendGhosts.c         \
+      CommSendGhostPlanes.c    \
+      CommSendMirrorNodes.c    \
+      CommSendRemesh.c         \
       CommSendSecondaryGhosts.c\
       CommSendSegments.c       \
       CommSendVelocity.c       \
