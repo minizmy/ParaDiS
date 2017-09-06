@@ -66,14 +66,6 @@ BINDIR = ../bin
 #	different set of preprocessor definitions than are needed
 #	here, so we need to create links in this directory back to
 #	the source modlues and create separate object modules for
-#	these sources.
-#
-
-EXTERN_C_SRCS = CellCharge.c   \
-      CommSendGhosts.c         \
-      CommSendGhostPlanes.c    \
-      CommSendMirrorNodes.c    \
-      CommSendRemesh.c         \
       CommSendSecondaryGhosts.c\
       CommSendSegments.c       \
       CommSendVelocity.c       \
@@ -220,11 +212,11 @@ PARADISCYL_C_SRCS= CYL_Main.c               \
                    ninvmatrix.c             \
                    nmatrix.c                  
 
-PARADISCYL_INCS.linux = -I/usr/local/include -I/home/ryu/gsl/include
-PARADISCYL_LIBS.linux = -L/usr/local/lib/ -lfftw3 -L/home/ryu/gsl/lib -lgsl -lgslcblas -L/opt/intel/compilers_and_libraries/linux/lib/intel64
+PARADISCYL_INCS.linux = -I/usr/local/include -I ~/gsl/include
+PARADISCYL_LIBS.linux = -L/usr/local/lib/ -lfftw3 -L ~/gsl/lib -lgsl -lgslcblas -L/opt/intel/compilers_and_libraries/linux/lib/intel64
 
-PARADISCYL_INCS.OfficeServer = -I/usr/local/include -I/home/ryu/gsl/include
-PARADISCYL_LIBS.OfficeServer = -L/usr/local/lib/ -lfftw3 -L/home/ryu/gsl/lib -lgsl -lgslcblas -L/opt/intel/compilers_and_libraries/linux/lib/intel64
+PARADISCYL_INCS.OfficeServer = -I/usr/local/include -I ~/gsl/include
+PARADISCYL_LIBS.OfficeServer = -L/usr/local/lib/ -lfftw3 -L ~/gsl/lib -lgsl -lgslcblas -L/opt/intel/compilers_and_libraries/linux/lib/intel64
 
 PARADISCYL_INCS.wcr = -I/opt/fftw-3.1.2/intel/include
 PARADISCYL_LIBS.wcr = -L/opt/fftw-3.1.2/intel/lib/ -lfftw3  -lg2c -lm
