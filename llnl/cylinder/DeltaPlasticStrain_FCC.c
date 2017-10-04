@@ -704,8 +704,8 @@ void DeltaPlasticStrain_FCC(Home_t *home)
                Ltot[index][offset2+1] += fabs(Ltemp2[1]);
 
                xvector(tanv[offset1][0][index], tanv[offset1][1][index],
-                       tanv[offset1][2][index], deltax2x, deltax2y, deltax2z, 
-		       &tmpx, &tmpy, &tmpz);
+                       tanv[offset1][2][index], deltax2x, deltax2y, deltax2z,
+                       &tmpx, &tmpy, &tmpz);
 
                areaSwept[index][offset1+1] += sb * 0.5 * Ltemp2[0] *
                                       (tmpx*nanv[offset1][0][index] +
@@ -1022,6 +1022,7 @@ void DeltaPlasticStrain_FCC(Home_t *home)
             param->delpStrain[i] = gdstn[i];
             param->delpSpin[i] = gdspn[i];
         }
+
 /*
  *      Flux decomposition
  */

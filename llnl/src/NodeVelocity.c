@@ -91,10 +91,12 @@ void GetVelocityStatistics(Home_t *home)
         }
 
         if (velStatsLocal[V_NODE_COUNT] > 0) {
-
+#ifdef PARALLEL (2017/09/12-iryu)
+// To get dislocation statistics, VEL_STATISTICS comment in. 
+// With serial run, the following line needs to be comment out. 
             MPI_Allreduce(velStatsLocal, velStatsGlobal, V_MAXSTATS,
                           MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-
+#endif
             nodeCount = velStatsGlobal[V_NODE_COUNT];
 
             vAveragex = velStatsGlobal[V_AVERAGE_X] / nodeCount;

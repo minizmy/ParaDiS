@@ -20,7 +20,7 @@ DEFS += -D_NOVIRTUALSEG
 #DEFS += -D_CYLIMGSTRESS
 #DEFS += -D_CYLMETHOD1
 #DEFS += -D_STACKINGFAULT
-#DEFS += -D_TORSION
+DEFS += -D_TORSION
 #DEFS += -D_TENSIONafterTORSION
 #DEFS += -D_TORSIONDEBUG
 
@@ -34,6 +34,9 @@ DEFS += -D_NOVIRTUALSEG
 
 ## The following flags for surface dislocation loop nucleation
 DEFS += -D_NUCLEATION
+
+## The following flags for get dislocation statistics
+#DEFS += -DVEL_STATISTICS
 
 ## The following flags for boundary
 #DEFS += -D_BOUNDARY

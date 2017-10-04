@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# (2017/10/02) by ill
+# Check nucleation for dislocation network
+
+./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D150_1.ctrl > tests/FCC_Nuc_Network_test/D150_1.out &
+./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D300_1.ctrl > tests/FCC_Nuc_Network_test/D300_1.out &
+./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D600_1.ctrl > tests/FCC_Nuc_Network_test/D600_1.out &
+./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D1000_1.ctrl > tests/FCC_Nuc_Network_test/D1000_1.out &
+
 # (2017/07/17) by ill
 # Check GB nucleation (offset from GB)
 # Need to check the proper loop size

@@ -259,7 +259,7 @@ void DeltaPlasticStrain_FCC(Home_t *home)
             VECTOR_ZERO(localstrain[0]);
             VECTOR_ZERO(localstrain[1]);
             VECTOR_ZERO(localstrain[2]);
-        
+
 /*
  *          Loop over every segment attached to the node
  */        
@@ -317,7 +317,7 @@ void DeltaPlasticStrain_FCC(Home_t *home)
                nx = (ey*hhz - ez*hhy) * 0.5;
                ny = (ez*hhx - ex*hhz) * 0.5;
                nz = (ex*hhy - ey*hhx) * 0.5;
-           
+
                dyad[0][0] = nx*bx; dyad[0][1] = nx*by; dyad[0][2] = nx*bz;
                dyad[1][0] = ny*bx; dyad[1][1] = ny*by; dyad[1][2] = ny*bz;
                dyad[2][0] = nz*bx; dyad[2][1] = nz*by; dyad[2][2] = nz*bz;
@@ -570,7 +570,7 @@ void DeltaPlasticStrain_FCC(Home_t *home)
                vec1[0] = tanv[offset1][0][index];
                vec1[1] = tanv[offset1][1][index];
                vec1[2] = tanv[offset1][2][index];
-		 
+
                vec2[0] = tanv[offset2][0][index];
                vec2[1] = tanv[offset2][1][index];
                vec2[2] = tanv[offset2][2][index];
@@ -581,8 +581,8 @@ void DeltaPlasticStrain_FCC(Home_t *home)
                Ltot[index][offset2+1] += fabs(Ltemp2[1]);
 
                xvector(tanv[offset1][0][index], tanv[offset1][1][index],
-                       tanv[offset1][2][index], deltax2x, deltax2y,
-                       deltax2z, &tmpx, &tmpy, &tmpz);
+                       tanv[offset1][2][index], deltax2x, deltax2y, deltax2z,
+                       &tmpx, &tmpy, &tmpz);
 
                areaSwept[index][offset1+1] += sb * 0.5 * Ltemp2[0] *
                                       (tmpx*nanv[offset1][0][index] +
@@ -667,7 +667,6 @@ void DeltaPlasticStrain_FCC(Home_t *home)
                segleft2[1] = seg2[1] - segd2 * bnorm[index][1];
                segleft2[2] = seg2[2] - segd2 * bnorm[index][2];
  
- 
 /*
  *             min index2
  */
@@ -712,7 +711,7 @@ void DeltaPlasticStrain_FCC(Home_t *home)
                vec2[0] = tanv[offset2][0][index];
                vec2[1] = tanv[offset2][1][index];
                vec2[2] = tanv[offset2][2][index];
-  
+
                DecompVec(segleft2, vec1, vec2, Ltemp2);
 
                xvector(tanv[offset1][0][index], tanv[offset1][1][index],

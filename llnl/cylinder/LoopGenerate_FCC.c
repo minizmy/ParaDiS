@@ -21,6 +21,7 @@ const gsl_rng *gBaseRand;       /* global rand number generator */
 #define DEBUG_PRINT 0
 #define DEBUG_PRINT1 0
 #define PI 3.14159265
+#define NETWORK 1
 
 /*---------------------------------------------------------------------------
  *
@@ -60,7 +61,28 @@ void Make_NucSites(Home_t *home, Cylinder_t *cylinder)
     /* Generate nulceation sites on free surface */
 
     for (l = 0; l < NumNucSiteD ; l++){
-        randnum1 =rand()/(double)RAND_MAX; 
+/*
+        // (9/29/2017: iryu)
+        // To generate dislocation network from nucleation, we need to constrain the angle for nucleation sites
+        // For a FCC (100) oriented cylinder, we found that the angle should be 90(deg), and 270(deg)
+        // However, we observ from MD that there are four sites on the same slip plane, rather than 2-90,270.
+        // We postulate that would be the effet from pre-nulceated dislocations, so we decide to allow four sites for nucleation. 
+        if (NETWORK){
+            randnum1 =rand()/(double)RAND_MAX; 
+            if (randnum1 < 0.5){
+                randnum1=-0.125;    // Max PK force occur at -45 deg
+            }
+            else{
+                randnum1=0.375;    // Max PK force occur at 135 deg 
+            }
+        }
+        else{
+            randnum1 =rand()/(double)RAND_MAX; 
+        }
+
+*/
+
+
         randnum2 =rand()/(double)RAND_MAX;
         height = param->zBoundMax-param->zBoundMin;
         
@@ -302,7 +324,7 @@ void Find_Nucleation_Sites(Home_t *home, Cylinder_t *cylinder)
 
      real8        randVal;
      static int   seed = 8917346;
-
+     
      /* # of nulceation site is set proportional to the diameter 
  * 	e.g) D=150nm  NumNucSiteD = 150 
  * 	e.g) D=1000nm NumNucSiteD = 1000 */
@@ -328,9 +350,12 @@ void Find_Nucleation_Sites(Home_t *home, Cylinder_t *cylinder)
         if (randVal > R1){
             if (randVal < R2){
 		        cylinder->NucSite_F[i+1] = 1;
+
             }
         }
     }
+
+
     return;
 }
 
@@ -342,7 +367,7 @@ void Find_Nucleation_Sites(Home_t *home, Cylinder_t *cylinder)
  *	    		the loop center.
  *	Algorithm:  Slip system is chosen based on the maximum resolved 	
  *	    		shear stress.If several maximums exist, choose one in 
- *		    	a random way.  
+_*		    	a random way.  
  *-------------------------------------------------------------------------*/
 
 int Find_Slip_System(real8 NBmatrix[12][6],real8 SS[3][3],real8 c[3],real8 N[3],real8 B[3])
@@ -479,7 +504,7 @@ void LOOPGENERATE_FCC(Home_t *home, Cylinder_t *cylinder)
     int     i, j, l, newNodeKeyPtr;
     int     iArm;
     int     globalOp = 1;
-	real8	randnum, u, Rn, uRn, R1, R2;
+	real8	randNum, u, Rn, uRn, R1, R2;
 	real8   theta;
 	real8 	segsize = home->param->minSeg;
 	int	    NumNode = (int)(2.0*PI*LoopR/segsize);
@@ -734,7 +759,66 @@ void LOOPGENERATE_FCC(Home_t *home, Cylinder_t *cylinder)
 
 			bx = BB[0];	by = BB[1];	bz = BB[2];
 			nx = NN[0];	ny = NN[1];	nz = NN[2];
+            
+            // (9/29/2017: iryu)
+            // To generate dislocation network from nucleation, we need to constrain the angle for nucleation sites
+            // For a FCC (100) oriented cylinder, we found that the angle should be 90(deg), and 270(deg)
+            // However, we observ from MD that there are four sites on the same slip plane, rather than 2-90,270.
+            // We postulate that would be the effet from pre-nulceated dislocations, so we decide to allow four sites for nucleation. 
 
+            if (NETWORK){
+
+            // Relocate from the initial nucleation sites to the position with max. PK force
+                int randI;
+                int NumMaxPKPts;            // Number of nucleation sites with max. PK force
+                real8 x0, y0, z0;           // initial nucleation site
+
+
+
+                NumMaxPKPts = 4;
+                randI = (rand()%NumMaxPKPts)+1;
+                x0 = cx;                y0 = cy;                z0 = cz;
+                
+               /* Refer to Matlab file : New_Nucleation_Sites.m */
+                switch (randI) {
+                    case 1:  
+                        cx = radius;
+                        cy = 0.0;
+                        cz = (-nx*radius+nx*x0+ny*y0+nz*z0)/nz;
+                        break;
+                    case 2: 
+                        cx = 0.0;
+                        cy = radius;
+                        cz = (-ny*radius+nx*x0+ny*y0+nz*z0)/nz;
+                        break;
+                    case 3: 
+                        cx = -1.0*radius;
+                        cy = 0.0;
+                        cz = (nx*radius+nx*x0+ny*y0+nz*z0)/nz;
+                        break;
+                    case 4:
+                        cx = 0.0;
+                        cy = -1.0*radius;
+                        cz = (ny*radius+nx*x0+ny*y0+nz*z0)/nz;
+                        break;
+                }
+                
+                if(param->ANISO_110){
+                    NumMaxPKPts = 4;
+                    randI = (rand()%NumMaxPKPts)+1;
+                    Fatal("Not setup the nucleation, yet.");
+                }
+
+                if(param->ANISO_111){
+                    NumMaxPKPts = 4;
+                    // For (111) direction, the nucleation sites are the same as (100) 
+                }
+
+                //printf("randum integer = %d \n",randI);
+				//printf("Initial Nucleation site X0= (%.4f %.4f %.4f ;\n", x0, y0, z0);
+				//printf("New Nucleation site C = (%.4f %.4f %.4f ;\n", cx, cy, cz);
+            }
+            
 			param->Slip_System[SlipIndex] ++; 
 
 			/* Base vectors to draw a loop */

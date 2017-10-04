@@ -8,15 +8,15 @@ set xtic auto                          # set xtics automatically
 set ytic auto                          # set ytics automatically
 set y2tic auto                         # set ytics automatically
 
-set title "Normalized Torque-Surface strain under torsion" font "Times-Roman,15"
+set title "Normalized Torque-Surface strain under torsion" font "Times-Roman,30"
 unset colorbox
 
 #set terminal pngcairo enhanced color font 'Times-Roman,10'
 #set output 'Torque_den_Torsion.png'
 
-set xlabel "Surface Strain" font "Times-Roman,15"  
-set ylabel "Normalized Stress" font "Times-Roman,15"  
-set y2label "Dislocation density" font "Times-Roman,15"   
+set xlabel "Surface Strain" font "Times-Roman,30"  
+set ylabel "Normalized Stress" font "Times-Roman,30"  
+set y2label "Dislocation density" font "Times-Roman,30"   
 
 set autoscale y
 set autoscale y2
