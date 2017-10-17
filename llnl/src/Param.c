@@ -837,6 +837,8 @@ void CtrlParamInit(Param_t *param, ParamList_t *CPList)
         param->fem_ageom_z[1] = 0.0;
         param->fem_ageom_z[2] = 1.0;
 #endif
+	BindVar(CPList, "Loading_Direction", &param->Loading_Direction, V_INT, 1, VFLAG_NULL);
+        param->Loading_Direction = 1;
 
         return;
 }
