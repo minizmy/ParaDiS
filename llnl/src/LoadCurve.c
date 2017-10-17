@@ -18,6 +18,7 @@
  *                      4  Total strain controlled cyclic load
  *                      5  Plastic strain controlled cyclic load
  *                      6  Load-time curve 
+ *                      7  Stress-controlled load
  *
  *      Last Modified:  01/03/2001 - original version
  *                      03/13/2003 - M. Rhee Removed anisotropic elastic
@@ -35,6 +36,9 @@
  *                                   strain/density info
  *                      07/12/2004 - Masato Strain contolled cyclic load
  *                                   is implemented.   
+ *                      10/17/2017 - Jamie added stress-controlled loading
+ *                      10/24/2017 - Jamie added stress-controlled umloading
+ *                      10/30/2017 - Jamie added stress-controlled biaxial loading
  *
  ***************************************************************************/
 #include "Home.h"
@@ -79,6 +83,7 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
 {
         int     i, j, k, loadtype, indxerate;
         int     numLoadCycle, numLoadCycle2;       
+    	int     Loading_Direction;
         real8   youngs, erate, dtt;
         real8   shr;
         real8   modulus, dpl_stn, dStress, amag, al, am, an;
@@ -90,6 +95,7 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
         real8   dCyclicStrain;
         real8   totCyclicStrain, netCyclicStrain;
         Param_t *param;
+        real8   dot_dpl_stn, dot_dpl_tol, dStrain;
         
         TimerStart(home, LOADCURVE);
         
@@ -103,6 +109,7 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
 
         sigijk          = 0;
         totCyclicStrain = 0.0;
+    	Loading_Direction = param->Loading_Direction;
         
 /*
  *      Update young's modulus in Param_t so the correct value is written
@@ -536,6 +543,82 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
             default:
                 Fatal("Load curves not defined. Stopping the program. \n");
             break;
+/*
+ *          Stress controlled (Jamie)
+ */
+            case 7:
+/*
+ *              Cover for specific loading direction also
+ */
+                dpl_stn=  param->delpStrain[0]*al*al +
+                          param->delpStrain[1]*am*am +
+                          param->delpStrain[2]*an*an +
+                          2.0*param->delpStrain[3]*am*an +
+                          2.0*param->delpStrain[4]*an*al +
+                          2.0*param->delpStrain[5]*al*am;
+        
+                if (indxerate <= 3) {
+                   modulus = youngs;
+                } else {
+                   modulus = 2.0 * shr;
+                }
+
+/*
+ *              global (100)-(010)-(001) frame
+ */
+                
+                if (Loading_Direction < 0) { 
+//                    printf("Compression\n");
+                    dot_dpl_stn = dpl_stn/dtt;
+                    dot_dpl_tol = -5.e4;
+                
+                    if (dot_dpl_stn > 0) {
+                        dStress = -5.e4 ;
+                        dStrain = dStress/modulus;
+                    } else if (dot_dpl_stn >= dot_dpl_tol) {
+                        dStress = -5.e4;
+                        dStrain = dStress/modulus + dpl_stn;
+                    } else {
+                        dStress = 0.0;
+                        dStrain = dpl_stn;
+                    }
+                } else if (Loading_Direction >= 0) {
+//                    printf("Tension\n");
+                    dot_dpl_stn = dpl_stn/dtt;
+                    dot_dpl_tol = 5.e4;
+                
+                    if (dot_dpl_stn < 0) {
+                        dStress = 5.e4;
+                        dStrain = dStress/modulus;
+                    } else if (dot_dpl_stn <= dot_dpl_tol) {
+                        dStress = 5.e4;
+                        dStrain = dStress/modulus + dpl_stn;
+                    } else {
+                        dStress = 0.0;
+                        dStrain = dpl_stn;
+                    }
+                } else {
+                    Fatal("Loading_Direction should be positive or negative integer");
+        		}
+
+                param->appliedStress[0] += dStress *al*al;
+                param->appliedStress[1] += dStress *am*am;
+                param->appliedStress[2] += dStress *an*an;
+                param->appliedStress[3] += dStress *an*am;
+                param->appliedStress[4] += dStress *an*al;
+                param->appliedStress[5] += dStress *al*am;
+
+                param->totstraintensor[0] += dStrain *al*al;
+                param->totstraintensor[1] += dStrain *am*am;
+                param->totstraintensor[2] += dStrain *an*an;
+                param->totstraintensor[3] += dStrain *an*am;
+                param->totstraintensor[4] += dStrain *an*al;
+                param->totstraintensor[5] += dStrain *al*am;
+
+/*		Simulation stop at total strain approaches 0.1  */
+                if (param->totstraintensor[2] > 0.10) home->cycle = param->cycleStart + param->maxstep;
+
+                break;
 
         }  /* end: switch(loadtype) */
         

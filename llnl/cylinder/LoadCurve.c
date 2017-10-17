@@ -18,6 +18,7 @@
  *                      4  Total strain controlled cyclic load
  *                      5  Plastic strain controlled cyclic load
  *                      6  Load-time curve 
+ *                      7  Stress-controlled load
  *
  *      Last Modified:  01/03/2001 - original version
  *                      03/13/2003 - M. Rhee Removed anisotropic elastic
@@ -35,6 +36,9 @@
  *                                   strain/density info
  *                      07/12/2004 - Masato Strain contolled cyclic load
  *                                   is implemented.   
+ *                      00/00/2013 - Ill Ryu added stress-controlled load
+ *                      00/00/2014 - Ill Ryu added stress-controlled load
+ *                                   for torsion
  *
  ***************************************************************************/
 #include "Home.h"
@@ -82,7 +86,7 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
 {
         int     i, j, k, loadtype, indxerate;
         int     numLoadCycle, numLoadCycle2;       
-    	int	Loading_Direction;
+    	int     Loading_Direction;
         real8   youngs, erate, dtt;
         real8   shr;
         real8   modulus, dpl_stn, dStress, amag, al, am, an;
@@ -265,6 +269,7 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
         al = param->edotdir[0];
         am = param->edotdir[1];
         an = param->edotdir[2];
+
         amag = sqrt(al*al + am*am + an*an);
 
         al /= amag;

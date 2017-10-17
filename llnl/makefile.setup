@@ -60,6 +60,11 @@
 #                      (MCR, PENGRA)
 #      gcc             Generic Linux system build using gnu compilers
 #
+#      COMET           NSF-funded system operated by the San Diego 
+#                      Supercomputer Center at UC San Diego
+#
+#      STAMPEDE2       TACC
+#
 
 #SYS = linux
 SYS = OfficeServer
