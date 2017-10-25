@@ -96,7 +96,7 @@ static void ApplyDeltaStress(Home_t *home, real8 deltaStress[3][3])
         real8   x1, y1, z1, x2, y2, z2;
         real8   bx1, by1, bz1, dx, dy, dz;
         real8   f1[3], f2[3];
-#if defined _CYLINDER && _TORSION /*iryu*/
+#if defined _CYLINDER && _TORSION
 	real8   MU;
 	real8	deltheta;
 #endif
@@ -105,9 +105,9 @@ static void ApplyDeltaStress(Home_t *home, real8 deltaStress[3][3])
         
         param = home->param;
 
-#if defined _CYLINDER && _TORSION /*iryu*/
+#if defined _CYLINDER && _TORSION
         MU = param->shearModulus;
-	deltheta = deltaTheta[0];
+        deltheta = deltaTheta[0];
 #endif
 
 /*
@@ -167,7 +167,8 @@ static void ApplyDeltaStress(Home_t *home, real8 deltaStress[3][3])
                     AddtoNodeForce(nbr, f2);
                     AddtoArmForce(nbr, nbrArm, f2);
                 }
-		#if defined _CYLINDER && _TORSION /*iryu*/
+
+#if defined _CYLINDER && _TORSION /*iryu*/
 		if ((param->loadType == 1) || (param->loadType == 7))
 		{
 			ExtPKTorque(deltheta, MU, bx1, by1, bz1, x1, y1,z1, 
@@ -179,7 +180,8 @@ static void ApplyDeltaStress(Home_t *home, real8 deltaStress[3][3])
                     AddtoNodeForce(nbr, f2);
                     AddtoArmForce(nbr, nbrArm, f2);
                 }
-	        #endif
+#endif
+
             }
 
             (void)EvaluateMobility(home, node);
@@ -238,15 +240,16 @@ void ParadisStep(Home_t *home)
         int        i;
         int        doAll = 1;
         real8      deltaStress[3][3];
-#if defined _CYLINDER && _TORSION /*iryu*/
-        real8      deltaTheta[1];
-#endif 
         Param_t    *param;
         Node_t     *node;
         static int firstTime = 1;
-   
 
         param = home->param;
+
+#if defined _CYLINDER && _TORSION
+        real8      deltaTheta[1];
+#endif 
+
 
 /*
  *      If this step is an initial load-balance-only step just
@@ -562,14 +565,15 @@ void ParadisStep(Home_t *home)
 /*
  *      Define load curve and calculate change in applied stress this cycle
  */
-#if defined _CYLINDER && _TORSION //iryu
+
+#if defined _CYLINDER && _TORSION
         LoadCurve(home, deltaStress, deltaTheta);
 #else
         LoadCurve(home, deltaStress);
 #endif
 
 #ifdef MPIDEBUGMODE
-      if(home->myDomain == 0) printf("LoadCurve finished\n");
+        if(home->myDomain == 0) printf("LoadCurve finished\n");
 #endif
 /*
  *      This is only needed when we do force calcs for only
@@ -579,7 +583,8 @@ void ParadisStep(Home_t *home)
  *      when we enter the timestep integrator at the beginning of the next
  *      cycle.
  */
-#if defined _CYLINDER && _TORSION //iryu
+
+#if defined _CYLINDER && _TORSION
         ApplyDeltaStress(home, deltaStress, deltaTheta);
 #else
         ApplyDeltaStress(home, deltaStress);

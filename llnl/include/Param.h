@@ -528,6 +528,7 @@ struct _param {
                                 /* lost as dislocations move outside the */
                                 /* simulation bounds                     */
 #endif
+        int Loading_Direction;	/*Loading direction= Postive */ 
 };
 
 

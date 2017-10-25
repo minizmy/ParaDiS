@@ -569,17 +569,19 @@ struct _param {
 
 //#ifdef _NUCLEATION
 	real8 LoopRadius;           // Dislocation loop size
-	int   NucNum;		    // Event counter
-	int   NucSiteExist;	    // Event counter
-	real8 NucTEMP;		    // Simulation temperature 
-	real8 NucTEMPm;		    // Surface melting temperature 
-	real8 NucSTRESS;	    // Normal stress 
-	real8 NucSTRESSCon;	    // Average value of Stress concentration factor
+	int   NucNum;		        // Event counter
+	int   NucSiteExist;	        // Event counter
+	real8 NucTEMP;		        // Simulation temperature 
+	real8 NucTEMPm;		        // Surface melting temperature 
+	real8 NucSTRESS;	        // Normal stress 
+	real8 NucSTRESSCon;	        // Average value of Stress concentration factor
 	real8 NucSTRESSConSD;	    // Standard deviation of stress concentration factor 
 
 	int   Slip_System[12];	    // Slip system, For more detail, see LoopGenerate_FCC.c or LoopGenerate_BCC.c	
-	int   NucLocal;		    //  == 1 : SCF is constant
+	int   NucLocal;	    	    //  == 1 : SCF is constant
 	                            //  != 1 : SCF is adjusted at every nucleation event 
+	int   NucNetwork;	    	//  == 1 : Dislocation network in the same slip plane
+	                            //  != 1 : random dislocation nucleation 
 	real8 NucLocalCoeff;        //  Coefficient which control how much stress drop from nucleation
 //#endif
 //

@@ -920,12 +920,14 @@ void CtrlParamInit(Param_t *param, ParamList_t *CPList)
         BindVar(CPList, "NucSTRESSConSD", &param->NucSTRESSConSD, V_DBL, 1, VFLAG_NULL);
         param->NucSTRESSConSD = 1.0;
 
-	BindVar(CPList, "NucLocal", &param->NucLocal, V_INT, 1, VFLAG_NULL);
-	param->NucLocal = 0;
+    	BindVar(CPList, "NucLocal", &param->NucLocal, V_INT, 1, VFLAG_NULL);
+        param->NucLocal = 0;
 
         BindVar(CPList, "NucLocalCoeff", &param->NucLocalCoeff, V_DBL, 1, VFLAG_NULL);
         param->NucLocalCoeff = 1.0;
-
+        
+        BindVar(CPList, "NucNetwork", &param->NucNetwork, V_INT, 1, VFLAG_NULL);
+        param->NucNetwork = 0;
 #endif
 
 #endif

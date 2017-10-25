@@ -21,7 +21,6 @@ const gsl_rng *gBaseRand;       /* global rand number generator */
 #define DEBUG_PRINT 0
 #define DEBUG_PRINT1 0
 #define PI 3.14159265
-#define NETWORK 1
 
 /*---------------------------------------------------------------------------
  *
@@ -81,8 +80,7 @@ void Make_NucSites(Home_t *home, Cylinder_t *cylinder)
         }
 
 */
-
-
+        randnum1 =rand()/(double)RAND_MAX;
         randnum2 =rand()/(double)RAND_MAX;
         height = param->zBoundMax-param->zBoundMin;
         
@@ -126,6 +124,7 @@ void Make_NucSites(Home_t *home, Cylinder_t *cylinder)
  *
  * 	Ref : 		Entropic effect on the rate of dislocation nucleation
  *      	 	PNAS(2011) by Seunghwa Ryu et al.
+ * 	Ref : 		We need to find the activation enery barrier for BCC
  *-------------------------------------------------------------------------*/
 
 void Compute_Nuc_Probability(Home_t *home, Cylinder_t *cylinder)
@@ -149,11 +148,27 @@ void Compute_Nuc_Probability(Home_t *home, Cylinder_t *cylinder)
  * 	e.g) D=1000nm NumNucSiteD = 1000 */
     int NumNucSiteD = (int) (param->cyl_radius*1.0*param->burgMag*1e9+1.0);
     real8  SS1, Q[NumNucSiteD], dtt;
-    real8  aa =  4.811799e+00;
-    real8  bb = -2.359345e+00;
-    real8  cc =  4.742173e-03;
-    real8  dd = -2.457447e+00;
-    real8  ee = -1.330434e-01;
+    real8  aa,bb,cc,dd,ee;
+    real8  beta;      // Angle between slip plane and loading direction[rad] for BCC
+
+	switch(home->param->materialType) {
+        case MAT_TYPE_BCC:
+            aa =  4.811799e+00;
+            bb = -2.359345e+00;
+            cc =  4.742173e-03;
+            dd = -2.457447e+00;
+            ee = -1.330434e-01;
+            beta   = 45.0*M_PI/180;      // Angle between slip plane and loading direction[rad] for BCC
+            break;
+        case MAT_TYPE_FCC:
+            aa =  4.811799e+00;
+            bb = -2.359345e+00;
+            cc =  4.742173e-03;
+            dd = -2.457447e+00;
+            ee = -1.330434e-01;
+            beta   = 22.6375*M_PI/180;  	// Angle between slip plane and loading direction[rad]
+            break;
+    }
     real8  v0 = 1e13;				// Nucleation frequency ~ Debye frequency
 
     real8  mu = param->shearModulus;
@@ -163,7 +178,6 @@ void Compute_Nuc_Probability(Home_t *home, Cylinder_t *cylinder)
     real8  dS,ep_slip,thetap_slip,thetaElastic;
     real8  S = 1.0 ;
     real8  Young  = 2*mu*(1.0 + param->pois);	// Young's modulus
-    real8  beta   = 22.6375*M_PI/180;             	// Angle between slip plane and loading direction[rad]
     real8  L0     = 10.0*radius;
     int    Slip;					// Number of slip per sites	
     real8  SCF_Old, SCF_New;
@@ -766,7 +780,7 @@ void LOOPGENERATE_FCC(Home_t *home, Cylinder_t *cylinder)
             // However, we observ from MD that there are four sites on the same slip plane, rather than 2-90,270.
             // We postulate that would be the effet from pre-nulceated dislocations, so we decide to allow four sites for nucleation. 
 
-            if (NETWORK){
+            if (param->NucNetwork==1){
 
             // Relocate from the initial nucleation sites to the position with max. PK force
                 int randI;
@@ -818,7 +832,7 @@ void LOOPGENERATE_FCC(Home_t *home, Cylinder_t *cylinder)
 				//printf("Initial Nucleation site X0= (%.4f %.4f %.4f ;\n", x0, y0, z0);
 				//printf("New Nucleation site C = (%.4f %.4f %.4f ;\n", cx, cy, cz);
             }
-            
+
 			param->Slip_System[SlipIndex] ++; 
 
 			/* Base vectors to draw a loop */

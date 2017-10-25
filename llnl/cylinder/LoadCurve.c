@@ -39,6 +39,7 @@
  *                      00/00/2013 - Ill Ryu added stress-controlled load
  *                      00/00/2014 - Ill Ryu added stress-controlled load
  *                                   for torsion
+ *                      10/17/2017 - Ill Ryu added stress-controlled equibiaxial load(9)
  *
  ***************************************************************************/
 #include "Home.h"
@@ -651,7 +652,7 @@ void LoadCurve(Home_t *home, real8 deltaStress[3][3])
                 Fatal("Load curves not defined. Stopping the program. \n");
             break;
 /*
- *          Stress controlled (SeokWoo)
+ *          Stress controlled 
  */
             case 7:
 /*

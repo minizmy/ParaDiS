@@ -1,14 +1,35 @@
 #!/bin/bash
 
-# (2017/10/02) by ill
+# (2017/10/25)
+# BCC surface nucleation 
+./bin/BCC_SURF_NUC tests/BCC_SURF_NUC/D150_1.ctrl > tests/BCC_SURF_NUC/D150_1.out &
+./bin/BCC_SURF_NUC tests/BCC_SURF_NUC/D150_2.ctrl > tests/BCC_SURF_NUC/D150_2.out &
+./bin/BCC_SURF_NUC tests/BCC_SURF_NUC/D150_3.ctrl > tests/BCC_SURF_NUC/D150_3.out &
+./bin/BCC_SURF_NUC tests/BCC_SURF_NUC/D150_4.ctrl > tests/BCC_SURF_NUC/D150_4.out &
+./bin/BCC_SURF_NUC tests/BCC_SURF_NUC/D150_5.ctrl > tests/BCC_SURF_NUC/D150_5.out &
+
+# (2017/10/24)
+# Loadtype 11 check  - twist controlled loading
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D150_1_LT11.ctrl > tests/CYL_LoadType_Torsion/D150_1_LT11.out &
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D300_1_LT11.ctrl > tests/CYL_LoadType_Torsion/D300_1_LT11.out &
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D600_1_LT11.ctrl > tests/CYL_LoadType_Torsion/D600_1_LT11.out &
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D1000_1_LT11.ctrl > tests/CYL_LoadType_Torsion/D1000_1_LT11.out &
+
+# Loadtype 12 check  - torque controlled loading
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D150_1_LT12.ctrl > tests/CYL_LoadType_Torsion/D150_1_LT12.out &
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D300_1_LT12.ctrl > tests/CYL_LoadType_Torsion/D300_1_LT12.out &
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D600_1_LT12.ctrl > tests/CYL_LoadType_Torsion/D600_1_LT12.out &
+#./bin/cyl_loadtype tests/CYL_LoadType_Torsion/D1000_1_LT12.ctrl > tests/CYL_LoadType_Torsion/D1000_1_LT12.out &
+
+# (2017/10/02)
 # Check nucleation for dislocation network
 
-./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D150_1.ctrl > tests/FCC_Nuc_Network_test/D150_1.out &
-./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D300_1.ctrl > tests/FCC_Nuc_Network_test/D300_1.out &
-./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D600_1.ctrl > tests/FCC_Nuc_Network_test/D600_1.out &
-./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D1000_1.ctrl > tests/FCC_Nuc_Network_test/D1000_1.out &
+#./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D150_1.ctrl > tests/FCC_Nuc_Network_test/D150_1.out &
+#./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D300_1.ctrl > tests/FCC_Nuc_Network_test/D300_1.out &
+#./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D600_1.ctrl > tests/FCC_Nuc_Network_test/D600_1.out &
+#./bin/FCC_Nuc_Network tests/FCC_Nuc_Network_test/D1000_1.ctrl > tests/FCC_Nuc_Network_test/D1000_1.out &
 
-# (2017/07/17) by ill
+# (2017/07/17)
 # Check GB nucleation (offset from GB)
 # Need to check the proper loop size
 
@@ -166,11 +187,11 @@
 #./bin/cyl_bound_back tests/Boundary_TEST5/D1000_3.ctrl > tests/Boundary_TEST5/D1000_3.out &
 #./bin/cyl_bound_back tests/Boundary_TEST5/D1000_4.ctrl > tests/Boundary_TEST5/D1000_4.out &
 #./bin/cyl_bound_back tests/Boundary_TEST5/D1000_5.ctrl > tests/Boundary_TEST5/D1000_5.out &
-./bin/cyl_bound_back tests/Boundary_TEST5/D1000_6.ctrl > tests/Boundary_TEST5/D1000_6.out &
-./bin/cyl_bound_back tests/Boundary_TEST5/D1000_7.ctrl > tests/Boundary_TEST5/D1000_7.out &
-./bin/cyl_bound_back tests/Boundary_TEST5/D1000_8.ctrl > tests/Boundary_TEST5/D1000_8.out &
-./bin/cyl_bound_back tests/Boundary_TEST5/D1000_9.ctrl > tests/Boundary_TEST5/D1000_9.out &
-./bin/cyl_bound_back tests/Boundary_TEST5/D1000_10.ctrl > tests/Boundary_TEST5/D1000_10.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_6.ctrl > tests/Boundary_TEST5/D1000_6.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_7.ctrl > tests/Boundary_TEST5/D1000_7.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_8.ctrl > tests/Boundary_TEST5/D1000_8.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_9.ctrl > tests/Boundary_TEST5/D1000_9.out &
+#./bin/cyl_bound_back tests/Boundary_TEST5/D1000_10.ctrl > tests/Boundary_TEST5/D1000_10.out &
 
 # Run Bicrystal tension
 #

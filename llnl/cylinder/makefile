@@ -20,7 +20,7 @@ DEFS += -D_NOVIRTUALSEG
 #DEFS += -D_CYLIMGSTRESS
 #DEFS += -D_CYLMETHOD1
 #DEFS += -D_STACKINGFAULT
-DEFS += -D_TORSION
+#DEFS += -D_TORSION
 #DEFS += -D_TENSIONafterTORSION
 #DEFS += -D_TORSIONDEBUG
 
@@ -48,7 +48,7 @@ DEFS += -D_NUCLEATION
 #DEFS += -D_RELAX
 
 ## The following flags for BCC surface cross slip
-#DEFS += -D_BCC_CROSS
+DEFS += -D_BCC_CROSS
 
 ## The following flags to write essential output only
 DEFS += -D_WRITEPROP_SHORT

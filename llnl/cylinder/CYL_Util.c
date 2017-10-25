@@ -190,6 +190,10 @@ void CYL_Init(Home_t *home,Cylinder_t **cyl_ptr)
 //  if (al >= atol || am>=atol || 1.0-an>=atol){
 //  	Fatal("Change the slip system for nucleation (LoopGenerate_FCC.c)with respect to loading direction");
 //  }
+
+  if (param->NucNetwork == 1){
+	  printf("Dislocation Network would form in the same slip plane from Nucleation\n");
+  }
 #endif
 #endif
   cylinder->LenVirtualSeg= param->cyl_VSlength;

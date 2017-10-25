@@ -65,15 +65,6 @@ void WriteProp(Home_t *home, int property)
         real8   *globalDensityVals = (real8 *)NULL;
         real8   totDensityChange[14];
 
-#if defined _CYLINDER && _TORSION /*iryu*/
-    	real8   mu, Ip, radius,radius3,radius4;
-    	real8   TotSurfStrain;
-    	real8   ElaSurfStrain;
-    	real8   PlaSurfStrain;
-       	real8   NormalizedTorque;
-    	real8   ThetaTotal;
-#endif
-
         char    fileName[256];
         FILE    *fp;
         Param_t *param;
@@ -90,7 +81,14 @@ void WriteProp(Home_t *home, int property)
         am /= amag;
         an /= amag;
 
-#if defined _CYLINDER && _TORSION /*iryu*/
+
+#if defined _CYLINDER && _TORSION
+    	real8   mu, Ip, radius,radius3,radius4;
+    	real8   TotSurfStrain;
+    	real8   ElaSurfStrain;
+    	real8   PlaSurfStrain;
+       	real8   NormalizedTorque;
+    	real8   ThetaTotal;
         mu = param->shearModulus;
     	radius = param->cyl_radius;
 	    radius3 = radius*radius*radius;
@@ -148,8 +146,8 @@ void WriteProp(Home_t *home, int property)
             param->delSegLength *= param->burgVolFactor;
         
             if (home->myDomain == 0) {
-		#if defined _WRITEPROP_SHORT
-		#if defined _RELAX /*iryu*/
+#if defined _WRITEPROP_SHORT
+#else
                 snprintf(fileName, sizeof(fileName), "%s/density",
                          DIR_PROPERTIES);
                 fp = fopen(fileName, "a");
@@ -161,35 +159,6 @@ void WriteProp(Home_t *home, int property)
                            2.0*param->totpStn[4]*an*al +
                            2.0*param->totpStn[5]*al*am;
 
-                fprintf(fp, "%e %e %e %e ",
-                        pstnijk,param->eRate*param->timeNow, param->disloDensity,
-                        param->DOT_DPL_STN);
-
-                fprintf(fp, "\n");
-                fclose(fp);
-		#endif
-
-		#else
-                snprintf(fileName, sizeof(fileName), "%s/density",
-                         DIR_PROPERTIES);
-                fp = fopen(fileName, "a");
-
-                pstnijk =  param->totpStn[0]*al*al     +
-                           param->totpStn[1]*am*am     +
-                           param->totpStn[2]*an*an     +
-                           2.0*param->totpStn[3]*am*an +
-                           2.0*param->totpStn[4]*an*al +
-                           2.0*param->totpStn[5]*al*am;
-
-		#if defined _RELAX /*iryu*/
-//      [note]  If the <loadType> is zero, explicitly set <eRate> to 1 
-                fprintf(fp, "%e %e %e %e ",
-                        pstnijk,param->eRate*param->timeNow, param->disloDensity,
-                        param->DOT_DPL_STN);
-
-//		fprintf(fp, " %e", param->DOT_DPL_STN);
-//		if (dot_dpl_stn < dot_dpl_tol)  sleep(300000);
-		#else 
 /*
  *              First print the standard stuff that's common
  *              regardless of which mobility (BCC, FCC, etc)
@@ -229,7 +198,6 @@ void WriteProp(Home_t *home, int property)
                 for (i = 0; i < param->numBurgGroups; i++) {
                     fprintf(fp, " %e", param->partialDisloDensity[i]);
                 }
-		#endif
 
                 fprintf(fp, "\n");
                 fclose(fp);
@@ -242,7 +210,7 @@ void WriteProp(Home_t *home, int property)
                         param->eRate*param->timeNow, param->fem_delSegLength);
                 fclose(fp);
 #endif
-		#endif
+#endif
             }
         
 /*
@@ -278,9 +246,8 @@ void WriteProp(Home_t *home, int property)
                 fp = fopen(fileName, "a");
                 fprintf(fp,"%e %e\n", param->timeNow, pstnijk);
                 fclose(fp);
-#endif   
+#endif
                 if ((param->loadType == 1) || (param->loadType == 4) || (param->loadType == 7)) {
-        
 #if defined _WRITEPROP_SHORT
 #else
                     snprintf(fileName, sizeof(fileName),
@@ -309,40 +276,27 @@ void WriteProp(Home_t *home, int property)
          		    NormalizedTorque =  (mu*Ip*(param->AppliedTheta)*M_PI/180)/(8.0*radius3);	
                     fp = fopen(fileName, "a");
 #ifdef _NUCLEATION
-        		    if (home->cycle<2){
-            			fprintf(fp, "cycle         ThetaTot      ThetaPla      DelpTheta       SurfEla       SurfPla       SurfTot        Torque       Density  #of Nucleation\n");
-        	    		fprintf(fp, "----------------------------------------------------------------------------------------------------------------------------------------\n");
-        		    }		    
+            		// "Cycle         ThetaTot      ThetaPla      DelpTheta       SurfEla       SurfPla       SurfTot        Torque       Density  #of Nucleation"
         	 	    fprintf(fp, "%-8d %13.5e %13.5e %13.5e %13.5e %13.5e %13.5e %13.5e %13.5e\t%d\n", home->cycle, ThetaTotal, param->pTheta, 
        				 param->DelpTheta, ElaSurfStrain, PlaSurfStrain, TotSurfStrain, NormalizedTorque, param->disloDensity, param->NucNum);
 #else
-        		    if (home->cycle<2){
-                        fprintf(fp, "cycle         ThetaTot      ThetaPla      DelTheta       SurfEla       SurfPla       SurfTot        Torque       Density\n");
-                        fprintf(fp, "------------------------------------------------------------------------------------------------------------------------\n");
-                    }		    
+                    // "Cycle         ThetaTot      ThetaPla      DelTheta       SurfEla       SurfPla       SurfTot        Torque       Density"
                     fprintf(fp, "%-8d %13.5e %13.5e %13.5e %13.5e %13.5e %13.5e %13.5e %13.5e\n", home->cycle, ThetaTotal, param->pTheta, 
                             param->DelpTheta, ElaSurfStrain, PlaSurfStrain, TotSurfStrain, NormalizedTorque, param->disloDensity);
 #endif
                     fclose(fp);
 #endif
-
 #if defined _WRITEPROP_SHORT
                     switch (param->loadType) {
                         case 1:
                             snprintf(fileName, sizeof(fileName),"%s/Ts_Ps_SS_Den", DIR_PROPERTIES);
                             fp = fopen(fileName, "a");
 #ifdef _NUCLEATION
-    		                if (home->cycle<2){
-                                fprintf(fp, "cycle      PlaStrain      TotStrain      Density  #of Nucleation\n");
-                                fprintf(fp, "----------------------------------------------------------------\n");
-                            }		    
+                            // "Cycle      PlaStrain      TotStrain      Density  #of Nucleation"
                             fprintf(fp, "%-8d %13.5e %13.5e %13.5e\t%d\n", home->cycle,
                                     pstnijk, sigijk, param->disloDensity, param->NucNum);
 #else
-        		            if (home->cycle<2){
-                                fprintf(fp, "TotStrain    PlaStrain      TotStrain      Density \n");
-                                fprintf(fp, "---------------------------------------------------\n");
-                            }
+                            // "TotStrain    PlaStrain      TotStrain      Density"
             			    fprintf(fp, "%e %e %e %e\n", param->eRate*param->timeNow,
                             pstnijk, sigijk, param->disloDensity);
 #endif
@@ -351,24 +305,18 @@ void WriteProp(Home_t *home, int property)
                     	    snprintf(fileName, sizeof(fileName),"%s/DATA_ALL", DIR_PROPERTIES);
                             fp = fopen(fileName, "a");
 
-                            /* CyclincStrain / Total stress / time /cycle number */
+                            // "CyclincStrain / Total stress / time /cycle number"
                             fprintf(fp, "%e %e %e %d\n",param->netCyclicStrain, sigijk,param->timeNow,param->numLoadCycle);
                             break;
-                        case 7: // stress controlled (SeokWoo)
+                        case 7:
                             snprintf(fileName, sizeof(fileName),"%s/Ts_Ps_SS_Den", DIR_PROPERTIES);
                             fp = fopen(fileName, "a");
 #ifdef _NUCLEATION
-                            if (home->cycle<2){
-                                fprintf(fp, "TotStrain(zz)     PlaStrain    Stress(zz)       Density   #of Nucleation\n");
-                                fprintf(fp, "------------------------------------------------------------------------\n");
-                            }
+                            // "TotStrain(zz)     PlaStrain    Stress(zz)       Density   #of Nucleation"
                             fprintf(fp, "%13.5e %13.5e %13.5e %13.5e  \t%d\n", param->totstraintensor[2],
                             pstnijk, param->appliedStress[2], param->disloDensity, param->NucNum);
 #else
-            			    if (home->cycle<2){
-                                fprintf(fp, "TotStrain(zz)     PlaStrain    Stress(zz)       Density\n");
-                                fprintf(fp, "-------------------------------------------------------\n");
-                            }
+                            // "TotStrain(zz)     PlaStrain    Stress(zz)       Density"
                             fprintf(fp, "%13.5e %13.5e %13.5e %13.5e\n", param->totstraintensor[2],
                                     pstnijk, param->appliedStress[2], param->disloDensity);
 #endif
@@ -386,7 +334,7 @@ void WriteProp(Home_t *home, int property)
                             fprintf(fp, "%e %e %e %d\n",param->netCyclicStrain, sigijk,
                                 param->timeNow,param->numLoadCycle);
                             break;
-                        case 7: // stress controlled (SeokWoo)
+                        case 7:
                             fprintf(fp, "%e %e\n",param->totstraintensor[2], param->appliedStress[2]);
                             break;
                     }
@@ -467,23 +415,20 @@ void WriteProp(Home_t *home, int property)
                         totGain += totDensityChange[i];
                         totLoss += totDensityChange[numBurgVectors+i];
                     }
-#if defined _CYLINDER && _TORSION /*iryu*/
-#else
                     snprintf(fileName, sizeof(fileName), "%s/density_delta",
-                             DIR_PROPERTIES);
-
+                            DIR_PROPERTIES);
+                    
                     fp = fopen(fileName, "a");
-
+                    
                     fprintf(fp, "%e %e %e ", param->eRate*param->timeNow,
-                            totGain, totLoss);
-
+                                            totGain, totLoss);
+                    
                     for (i = 0; i < numItems; i++) {
                         fprintf(fp, "%e ", totDensityChange[i]);
                     }
                     fprintf(fp, "\n");
 
                     fclose(fp);
-#endif
                 }
 /*
  *              Zero out the accumulated values since we've written the
