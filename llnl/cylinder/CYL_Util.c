@@ -140,9 +140,9 @@ void CYL_Init(Home_t *home,Cylinder_t **cyl_ptr)
 	      Fatal("Zboundary should be 0 or 1\n");
 	}
 	#endif
-//	param->pTheta = 0.0;	
-        printf("CYL_Init : pTheta = %e\n",param->pTheta);
+
 #endif 
+
     if (param->fmEnabled)
         printf("Using FMM method\n");
     else
@@ -181,10 +181,11 @@ void CYL_Init(Home_t *home,Cylinder_t **cyl_ptr)
   for (i = 0; i < 12; i++) 	param->Slip_System[i] = 0;
 
   if (param->NucLocal == 1){
-	  printf("Localized Nucleation: SCF is constant\n");
+	  printf("Localized Nucleation: SCF =%f, SD =%f \n", param->NucSTRESSCon, param->NucSTRESSConSD);
   }
   else{
 	  printf("Delocalized Nucleation: SCF is adjusted (NucLocalCoeff=%f)\n",param->NucLocalCoeff);
+	  printf("Initial Nucleation parameters: SCF =%f, SD =%f \n", param->NucSTRESSCon, param->NucSTRESSConSD);
   }
 //printf("loading direction : [%4f,%4f,%.4f]\n", al, am, an);
 //  if (al >= atol || am>=atol || 1.0-an>=atol){

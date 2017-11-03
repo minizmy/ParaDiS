@@ -184,7 +184,7 @@ void WriteProp(Home_t *home, int property)
  *              ***   file, increment the definition for         ***
  *              ***   DENSITY_FILE_VERSION above and document    ***
  *              ***   the new contents.  DO NOT REMOVE the       ***
- *              ***   descrmuf the previous version!       ***
+ *              ***   description of the previous version!       ***
  *              ****************************************************
  *                  
  *              Now append to the line the file version number
@@ -417,12 +417,12 @@ void WriteProp(Home_t *home, int property)
                     }
                     snprintf(fileName, sizeof(fileName), "%s/density_delta",
                             DIR_PROPERTIES);
-                    
+
                     fp = fopen(fileName, "a");
-                    
+
                     fprintf(fp, "%e %e %e ", param->eRate*param->timeNow,
-                                            totGain, totLoss);
-                    
+                            totGain, totLoss);
+
                     for (i = 0; i < numItems; i++) {
                         fprintf(fp, "%e ", totDensityChange[i]);
                     }

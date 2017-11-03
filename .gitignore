@@ -3,3 +3,6 @@ llnl/cylinder_BENDING/
 llnl/cylinder_Bound_Back/
 llnl/tests/
 llnl/cylinder_network/
+llnl/cylinder_loadtype/
+llnl/src_load7/
+*.[o]

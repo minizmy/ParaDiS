@@ -84,8 +84,8 @@ void DeltaPlasticStrain_BCC(Home_t *home)
 	real8 	rad;		// radius of dislocaiton center 
 	real8   Rad;		// cylinder radius
 	real8   Rad2;		// squrare of cylinder radius
-	real8 	pirad;	  	// angle between rectangular coord and cylinder coord 
-	real8   Ip, dA;		// polar moment of inertia	
+	real8 	pirad;	  	// angle between rectangular coord and cylinder coord
+    real8   Ip, dA;		// polar moment of inertia	
 	real8   height;		// cylinder length
 #endif
 
@@ -157,7 +157,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 tanvCryst[X] = tanv[plane][X][bIndex];
                 tanvCryst[Y] = tanv[plane][Y][bIndex];
                 tanvCryst[Z] = tanv[plane][Z][bIndex];
-                
+
                 Matrix33Vector3Multiply(home->rotMatrix,nanvCryst,nanvLab);
                 Matrix33Vector3Multiply(home->rotMatrix,tanvCryst,tanvLab);
                 
@@ -179,7 +179,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
             pstn[i][j] = 0.0;
         }
     }
-    
+
 #if defined _CYLINDER && _TORSION /*iryu*/
     for (i = 0; i < 3; i++){
         for (j = 0; j < 3; j++){
@@ -255,9 +255,9 @@ void DeltaPlasticStrain_BCC(Home_t *home)
             real8 hhx, hhy, hhz;
             real8 delxnode, delynode, delznode;
             real8 delxnbr, delynbr, delznbr;
-            
+
             nbr = GetNeighborNode(home, node, jjj);
-            
+
             if (nbr == (Node_t *)NULL) {
                 printf("WARNING: Neighbor not found at %s line %d\n",
                 __FILE__, __LINE__);
@@ -322,7 +322,6 @@ void DeltaPlasticStrain_BCC(Home_t *home)
             ZImage(param, &ex, &ey, &ez);
             ZImage(param, &hhx, &hhy, &hhz);
 
-
 /* 
  *      0.5 for cross(e, hh) => area
  */
@@ -364,8 +363,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 // local plastic strain
                 localstrain[1][1] += tmpDstn;
             }
-		    else 
-            if ( fabs(cylinder->My) > 0.0) {
+            else if ( fabs(cylinder->My) > 0.0) {
                 tmpDstn = dyad[0][0]*CYLz/param->simVol;
                 incstn[0][0] = tmpDstn;
                 // delta strain
@@ -376,13 +374,14 @@ void DeltaPlasticStrain_BCC(Home_t *home)
 #endif
 #endif
 
-#if defined _CYLINDER && _TORSION /*iryu*/
 /*      For torsion, we compute the plastic twist
  *      It will be used to update the nornalized torque in LoadCurve.c
  */
+
+#if defined _CYLINDER && _TORSION
             mx = 0.5*(node->x + nbr->x);  	// midpoint
             my = 0.5*(node->y + nbr->y);
-            dtpn = (4.0/Rad2)*(-my*dstnseg[2][0] + mx*dstnseg[2][1])*57.2958;	// 360/pi = 57.2958
+            dtpn = (4.0/Rad2)*(-my*dstnseg[2][0] + mx*dstnseg[2][1])*57.2958;  //360/pi = 57.2958 : radian to degree
             param->DelpTheta += dtpn;
 #ifdef _TORSIONDEBUG
 	        printf("mx = %e, my = %e, Ezx = %e, Ezy = %e, dtpn =  %e\n",mx, my, dstnseg[2][0], dstnseg[2][1], dtpn);
@@ -395,7 +394,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
             delxnode = node->x - node->oldx;
             delynode = node->y - node->oldy;
             delznode = node->z - node->oldz;
-            
+
             delxnbr = nbr->x - nbr->oldx;
             delynbr = nbr->y - nbr->oldy;
             delznbr = nbr->z - nbr->oldz;
@@ -414,38 +413,38 @@ void DeltaPlasticStrain_BCC(Home_t *home)
             zeta[2] = tmpz;
             
             size=sqrt(zeta[0]*zeta[0] + zeta[1]*zeta[1] + zeta[2]*zeta[2]);
-            
+
 /*
- *             deltaDensity = size/param->simVol/bmagsq;
+ *          deltaDensity = size/param->simVol/bmagsq;
  */
             deltaDensity = size * param->burgVolFactor;
             param->disloDensity += deltaDensity;
             Normalize(&nx, &ny, &nz);
-            
+
             deltax1x= node->x - node->oldx;
             deltax1y= node->y - node->oldy;
             deltax1z= node->z - node->oldz;
-            
+
             ZImage(param, &deltax1x, &deltax1y, &deltax1z);
-            
+
             deltax2x = nbr->x - nbr->oldx;
             deltax2y = nbr->y - nbr->oldy;
             deltax2z = nbr->z - nbr->oldz;
-            
+
             ZImage(param, &deltax2x, &deltax2y, &deltax2z);
-            
+
             seg[0] = nbr->x - node->x;                                  
             seg[1] = nbr->y - node->y;    
             seg[2] = nbr->z - node->z;
-            
+
             ZImage(param, &seg[0], &seg[1], &seg[2]);
-            
+
             seg2[0]= nbr->oldx - node->oldx;
             seg2[1]= nbr->oldy - node->oldy;
             seg2[2]= nbr->oldz - node->oldz;
 
             ZImage(param, &seg2[0], &seg2[1], &seg2[2]);
-            
+
 /*
  *      In addition to tracking total dislocation density, we need
  *      track dislocation density for specific sets of burgers
@@ -477,7 +476,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
  *      *************************************************
  */
             burgGroup = -1;
-            
+
             zeroCount = (bCryst[X] == 0.0) + (bCryst[Y] == 0.0) +
                         (bCryst[Z] == 0.0);
 
@@ -618,7 +617,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                         offset2 = 1;
                         break;
                 }
-                
+
                 vec1[0] = tanv[offset1][0][index];
                 vec1[1] = tanv[offset1][1][index];
                 vec1[2] = tanv[offset1][2][index];
@@ -633,9 +632,9 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 Ltot[index][offset2+1] += fabs(Ltemp2[1]);
                 
                 xvector(tanv[offset1][0][index], tanv[offset1][1][index],
-                        tanv[offset1][2][index], deltax2x, deltax2y, deltax2z, 
+                        tanv[offset1][2][index], deltax2x, deltax2y, deltax2z,
                         &tmpx, &tmpy, &tmpz);
-                
+
                 areaSwept[index][offset1+1] += sb * 0.5 * Ltemp2[0] *
                                         (tmpx*nanv[offset1][0][index] +
                                          tmpy*nanv[offset1][1][index] +
@@ -644,7 +643,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 xvector(tanv[offset2][0][index], tanv[offset2][1][index],
                         tanv[offset2][2][index], deltax2x, deltax2y,
                         deltax2z, &tmpx, &tmpy, &tmpz);
-                
+
                 areaSwept[index][offset2+1] += sb * 0.5 * Ltemp2[1] *
                                         (tmpx*nanv[offset2][0][index] +
                                          tmpy*nanv[offset2][1][index] +
@@ -656,7 +655,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
  */
                 xvector(bnorm[index][0], bnorm[index][1], bnorm[index][2],
                         deltax2x, deltax2y, deltax2z, &tmpx, &tmpy, &tmpz);
-                
+
                 qs[0] = sb * 0.5 * segd * tmpx;
                 qs[1] = sb * 0.5 * segd * tmpy;
                 qs[2] = sb * 0.5 * segd * tmpz;
@@ -672,12 +671,12 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 stemp[2] = fabs(nanv[2][0][index]*qs[0] +
                                 nanv[2][1][index]*qs[1] +
                                 nanv[2][2][index]*qs[2]);
- 
+
 /*
  *             Find min index2
  */
                 FindMin(stemp, 3, &minVal, &index2);
-                
+
                 switch (index2) {
                     case 0:
                         offset1 = 1;
@@ -717,7 +716,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 segleft2[0] = seg2[0] - segd2 * bnorm[index][0];
                 segleft2[1] = seg2[1] - segd2 * bnorm[index][1];
                 segleft2[2] = seg2[2] - segd2 * bnorm[index][2];
- 
+
 /*
  *             min index2
  */
@@ -765,16 +764,16 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 vec2[2] = tanv[offset2][2][index];
                 
                 DecompVec(segleft2, vec1, vec2, Ltemp2);
-                    
+
                 xvector(tanv[offset1][0][index], tanv[offset1][1][index],
                         tanv[offset1][2][index], deltax1x, deltax1y,
                         deltax1z, &tmpx, &tmpy, &tmpz);
-                
+
                 areaSwept[index][offset1+1] += sb * 0.5 * Ltemp2[0] *
                                     (tmpx*nanv[offset1][0][index] +
                                      tmpy*nanv[offset1][1][index] +
                                      tmpz*nanv[offset1][2][index]);
- 
+
                 xvector(tanv[offset2][0][index], tanv[offset2][1][index],
                         tanv[offset2][2][index], deltax1x, deltax1y,
                         deltax1z, &tmpx, &tmpy, &tmpz);
@@ -783,7 +782,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                                 (tmpx*nanv[offset2][0][index] +
                                  tmpy*nanv[offset2][1][index] +
                                  tmpz*nanv[offset2][2][index]);
-                              
+
 /*
  *             For screw (second part, upper triangle), decompose 'qs' vector 
  *             for two highest planes.
@@ -806,12 +805,12 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 stemp[2] = fabs(nanv[2][0][index]*qs[0] +
                                 nanv[2][1][index]*qs[1] +
                                 nanv[2][2][index]*qs[2]);
- 
+
 /*
  *             Find min index2
  */
                 FindAbsMin(stemp, 3, &minVal, &index2);
- 
+
                 switch (index2) {
                     case 0:
                         offset1 = 1;
@@ -858,7 +857,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
                 param->edotdir[2]*localstrain[2][0]*param->edotdir[0] +
                 param->edotdir[2]*localstrain[2][1]*param->edotdir[1] +
                 param->edotdir[2]*localstrain[2][2]*param->edotdir[2];
-                
+
                 if (localeRate > 0.0) {
                     node->sgnv = 1;
                 } else if (localeRate<0.0) {
@@ -917,7 +916,7 @@ void DeltaPlasticStrain_BCC(Home_t *home)
         printf("DelpTheta : %e, pTheta = %e\n", param->DelpTheta, param->pTheta);
 #endif
 #endif
-                                                                                
+
 #ifdef PARALLEL
 /*
  *      We've calculated processor specific values, now sum the
